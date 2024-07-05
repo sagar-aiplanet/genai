@@ -6,16 +6,8 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm import source
 import secrets
 import os
-pdf = [ ]
-pdf_paths = "/Doctor_prescription_files/"
 
-pdfs = ['Doctor_prescription_files/Prescription_1.pdf', 'Doctor_prescription_files/Prescription_3.pdf', 'Doctor_prescription_files/Prescription_2.pdf']
-# dir = os.walk(pdf_paths)
-# for root, dir,files  in dir:
-#     for file in files:
-#         if file.endswith('.pdf'):
-#             paths = pdf_paths + file
-#             pdf.append(paths)
+
 st.title("Chat with ZML file Patient data file.")
 
 
@@ -27,6 +19,23 @@ deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
 # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
+
+uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multiple_files=True, label_visibility="visible")
+
+def uploaded_files(uploaded_data_files):
+    if uploaded_data_files is not None:
+        print("uploaded_data_files",uploaded_data_files)
+        save_path = "./"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        filenames = []
+        for file in uploaded_data_files:
+            file_path = os.path.join(save_path, file.name)
+            filenames.append(file_path)
+            with open(file_path, "wb") as f:
+                f.write(file.getbuffer())
+        data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+        return data
 
 embed_model = AzureAIEmbeddings(
     endpoint_url = endpoint_url,
@@ -42,7 +51,22 @@ llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-3
 question = st.text_input("Enter your question")
 # question = "what is the Bobby Jackson condition?"
 
-system_prompt = "You are acting like a chat...."
+system_prompt = '''
+You are an expert medical AI chatbot. When a user uploads multiple documents, you should analyze and understand the content to determine the category of the questions related to the documents and answer them accordingly.
+
+Category one - Document and Report Handling:
+
+When a user uploads patient documents or reports, whether for an individual or an entire family, the chatbot should analyze the content and provide relevant answers based on the uploaded documents.
+
+Category two - General Health Suggestions:
+
+When users ask about their health conditions, the chatbot should offer general health suggestions only.
+The chatbot must avoid giving specific medical advice, diagnoses, or medication recommendations.
+
+Category three - Company Information:
+If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.'''
+submit=st.button("Get the data")
+
 
 submit=st.button("Get the data")
 if submit:

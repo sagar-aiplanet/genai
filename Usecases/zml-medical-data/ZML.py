@@ -43,8 +43,6 @@ embed_model = AzureAIEmbeddings(
     api_version= api_version,
     deployment_name=deployment_name
 )
-data = source.fit(path=pdfs, dtype="pdf",chunk_size=512,chunk_overlap=20)
-# text_embedding = embed_model.embed_text(str(data))
 retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
 llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
 # option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))

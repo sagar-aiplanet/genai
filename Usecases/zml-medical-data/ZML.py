@@ -29,12 +29,12 @@ def uploaded_files(uploaded_data_files):
         # if not os.path.exists(save_path):
         #     os.makedirs(save_path)
         filenames = []
-        
         for file in uploaded_data_files:
             file_path = os.path.join(save_path, file.name)
             filenames.append(file_path)
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
+        print("filenames",filenames)
         data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
         return data
 

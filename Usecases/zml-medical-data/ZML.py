@@ -66,13 +66,10 @@ if submit:
 
     Category three - Company Information:
     If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.'''
-    submit=st.button("Get the data")
-
-
-
-        print(question)
-        pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
-        response = pipeline.call()
-        st.write(response)
+   
+    print(question)
+    pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
+    response = pipeline.call()
+    st.write(response)
         
 

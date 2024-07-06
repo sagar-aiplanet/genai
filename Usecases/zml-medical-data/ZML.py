@@ -53,7 +53,7 @@ if submit:
     data = uploaded_files(uploaded_data_files)
     if not uploaded_data_files:
         system_prompt = "you will act like a chat .... at the end upload a file  and start using our servies"
-        pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
+        pipeline = generator.Generate(question=question,system_prompt=system_prompt, llm=llm)
         st.write("Please upload a file")
     else:
         

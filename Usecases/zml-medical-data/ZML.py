@@ -78,8 +78,7 @@ if submit:
         Category three - Company Information: \
         If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.
         You are honest, coherent and don't halluicnate \
-        
-        If the user query is not in context, simply tell `We are sorry, we don't have information on this` \ '''
+         '''
     
         print(question)
         pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)

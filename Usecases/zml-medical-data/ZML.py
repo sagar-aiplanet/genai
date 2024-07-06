@@ -43,7 +43,7 @@ embed_model = AzureAIEmbeddings(
     api_version= api_version,
     deployment_name=deployment_name
 )
-
+question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:
     retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)

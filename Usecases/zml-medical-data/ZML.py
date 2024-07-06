@@ -25,7 +25,7 @@ uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multip
 def uploaded_files(uploaded_data_files):
     if uploaded_data_files is not None:
         print("uploaded_data_files",uploaded_data_files)
-        save_path = "./"
+        save_path = "./patient_data"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         filenames = []

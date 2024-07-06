@@ -43,34 +43,36 @@ embed_model = AzureAIEmbeddings(
     api_version= api_version,
     deployment_name=deployment_name
 )
-retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
-llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
-# option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))
-question = st.text_input("Enter your question")
-# question = "what is the Bobby Jackson condition?"
-
-system_prompt = '''
-You are an expert medical AI chatbot. When a user uploads multiple documents, you should analyze and understand the content to determine the category of the questions related to the documents and answer them accordingly.
-
-Category one - Document and Report Handling:
-
-When a user uploads patient documents or reports, whether for an individual or an entire family, the chatbot should analyze the content and provide relevant answers based on the uploaded documents.
-
-Category two - General Health Suggestions:
-
-When users ask about their health conditions, the chatbot should offer general health suggestions only.
-The chatbot must avoid giving specific medical advice, diagnoses, or medication recommendations.
-
-Category three - Company Information:
-If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.'''
-submit=st.button("Get the data")
-
 
 submit=st.button("Get the data")
 if submit:
-    print(question)
-    pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
-    response = pipeline.call()
-    st.write(response)
-    
+    retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
+    llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
+    # option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))
+    question = st.text_input("Enter your question")
+    # question = "what is the Bobby Jackson condition?"
+
+    system_prompt = '''
+    You are an expert medical AI chatbot. When a user uploads multiple documents, you should analyze and understand the content to determine the category of the questions related to the documents and answer them accordingly.
+
+    Category one - Document and Report Handling:
+
+    When a user uploads patient documents or reports, whether for an individual or an entire family, the chatbot should analyze the content and provide relevant answers based on the uploaded documents.
+
+    Category two - General Health Suggestions:
+
+    When users ask about their health conditions, the chatbot should offer general health suggestions only.
+    The chatbot must avoid giving specific medical advice, diagnoses, or medication recommendations.
+
+    Category three - Company Information:
+    If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.'''
+    submit=st.button("Get the data")
+
+
+
+        print(question)
+        pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
+        response = pipeline.call()
+        st.write(response)
+        
 

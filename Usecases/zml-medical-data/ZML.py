@@ -25,7 +25,6 @@ uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multip
 def uploaded_files(uploaded_data_files):
     if not uploaded_data_files:
         return None
-
     else:
         print("uploaded_data_files",uploaded_data_files)
         save_path = "./patient_data"
@@ -52,7 +51,10 @@ question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:
     data = uploaded_files(uploaded_data_files)
-    if data is None:
+    if not uploaded_data_files:
+        st.write("Please upload a file")
+    else:
+        
         retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
         llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
         # option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))
@@ -77,7 +79,5 @@ if submit:
         pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
         response = pipeline.call()
         st.write(response)
-    else:
-        st.write("Please upload a file")
         
 

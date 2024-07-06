@@ -98,11 +98,11 @@ if submit:
 
         This will help me provide you with more relevant information."
 
-        if user asks you like frendly question.
+        if user asks you like frendly questions.
         start with greetings
-
         tell about you are a Medical AI research assistant
 
+        Answer:
         '''
     
         print(question)

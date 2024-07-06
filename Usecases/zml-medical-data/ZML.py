@@ -56,7 +56,8 @@ if submit:
     if not uploaded_data_files:
         system_prompt = "You are an AI assistant...."
         pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)
-        st.write("Hi, Please upload a file")
+        response = pipeline.call()
+        st.write(response)
     else:
         
         # option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))

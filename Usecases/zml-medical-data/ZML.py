@@ -12,13 +12,21 @@ st.title("Chat with ZML file Patient data file.")
 
 
 
-endpoint_url = st.secrets.azure_embeddings_credentials.ENDPOINT_URL
-azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
-api_version = st.secrets.azure_embeddings_credentials.API_VERSION
-deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
-BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
-# DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
-API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
+embed_model = embeddings.AzureAIEmbeddings(
+                    endpoint_url="https://marketplace.openai.azure.com/",
+                    azure_key="d6d9522a01c74836907af2f3fd72ff85",
+                    api_version="2024-02-01",
+                    deployment_name="text-embed-marketplace")
+BASE_URL = "https://gpt-res.openai.azure.com/"
+DEPLOYMENT_NAME = "gpt-4-32k" 
+API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
+# endpoint_url = st.secrets.azure_embeddings_credentials.ENDPOINT_URL
+# azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
+# api_version = st.secrets.azure_embeddings_credentials.API_VERSION
+# deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
+# BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
+# # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
+# API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
 
 uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multiple_files=True, label_visibility="visible")
 
@@ -40,12 +48,12 @@ def uploaded_files(uploaded_data_files):
         data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
         return data
 
-embed_model = AzureAIEmbeddings(
-    endpoint_url = endpoint_url,
-    azure_key = azure_key,
-    api_version= api_version,
-    deployment_name=deployment_name
-)
+# embed_model = AzureAIEmbeddings(
+#     endpoint_url = endpoint_url,
+#     azure_key = azure_key,
+#     api_version= api_version,
+#     deployment_name=deployment_name
+# )
 
 question = st.text_input("Enter your question")
 submit=st.button("Get the data")
@@ -64,6 +72,8 @@ if submit:
         # question = "what is the Bobby Jackson condition?"
 
         system_prompt = '''
+        
+        Context: {context}
         \ You are an expert medical AI chatbot. When a user uploads multiple documents, you should analyze and understand the content to determine the category of the questions related to the documents and answer them accordingly.
 
         Category one - Document and Report Handling: \ 
@@ -77,8 +87,10 @@ if submit:
 
         Category three - Company Information: \
         If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.
-        You are honest, coherent and don't halluicnate \
-         '''
+        You are honest, coherent and don't halluicnate if you did not find relavent context in the document, you could answer below as mentioned.
+
+        "I apologize, but it seems the query isn't related to the document content provided. Could you please specify your question or upload documents related to the topic you're interested in? This will help me provide you with more relevant information."
+        '''
     
         print(question)
         pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)

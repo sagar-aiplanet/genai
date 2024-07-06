@@ -44,7 +44,7 @@ embed_model = AzureAIEmbeddings(
     api_version= api_version,
     deployment_name=deployment_name
 )
-data = uploaded_files(uploaded_data_files)
+
 question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:

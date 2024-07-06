@@ -23,11 +23,14 @@ API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
 uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multiple_files=True, label_visibility="visible")
 
 def uploaded_files(uploaded_data_files):
-    if uploaded_data_files is not None:
-        # print("uploaded_data_files",uploaded_data_files)
+    if not uploaded_data_files:
+        return "Please upload document"
+
+    else:
+        print("uploaded_data_files",uploaded_data_files)
         save_path = "./patient_data"
-        # if not os.path.exists(save_path):
-        #     os.makedirs(save_path)
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
         filenames = []
         for file in uploaded_data_files:
             file_path = os.path.join(save_path, file.name)

@@ -48,6 +48,7 @@ data = uploaded_files(uploaded_data_files)
 question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:
+    data = uploaded_files(uploaded_data_files)
     retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
     llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
     # option = st.selectbox( 'Please Select the Patient name?', ('Bobby Jackson', 'Leslie Terry','Danny Smith'))

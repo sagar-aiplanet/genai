@@ -50,9 +50,9 @@ embed_model = AzureAIEmbeddings(
 question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:
+    data = uploaded_files(uploaded_data_files)
     retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
     llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})    
-    data = uploaded_files(uploaded_data_files)
     if not uploaded_data_files:
         system_prompt = "you will act like a chat .... at the end upload a file  and start using our servies "
         pipeline = generator.Generate(question=question, retriever=retriever,system_prompt=system_prompt, llm=llm)

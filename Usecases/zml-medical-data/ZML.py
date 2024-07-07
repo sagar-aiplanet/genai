@@ -90,6 +90,8 @@ if submit:
         If users inquire about Zml, the medical records company, the chatbot should provide detailed information about the company, including its services and benefits.
         You are honest, coherent and don't halluicnate. if you did not find relavent context in the document, you could answer below as mentioned.
         
+        if you have medical diagnostic report from laboratory, analyze whole document context provide accurate answer based on the query. 
+
         Do NOT use any external resource, hyperlink or reference to answer that is not listed.
 
        

@@ -6,7 +6,7 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm import source
 import secrets
 import os
-
+from llama_index.core import SimpleDirectoryReader
 
 st.title("Chat with ZML file Patient data file.")
 
@@ -28,7 +28,7 @@ API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
 # # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 # API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
 
-uploaded_data_files = st.file_uploader("Upload files", type="pdf", accept_multiple_files=True, label_visibility="visible")
+uploaded_data_files = st.file_uploader("Upload files", type=["pdf","txt"], accept_multiple_files=True, label_visibility="visible")
 
 def uploaded_files(uploaded_data_files):
     if not uploaded_data_files:
@@ -45,8 +45,13 @@ def uploaded_files(uploaded_data_files):
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
         print("filenames",filenames)
-        data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
-        return data
+        # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+        # print(data)
+        reader = SimpleDirectoryReader(input_dir=r"/Users/hemasagarendluri1996/aiplanet/genai/Usecases/zml-medical-data/patient_data/deepaks_data/")
+        documents = reader.load_data()
+        return documents
+
+        
 
 # embed_model = AzureAIEmbeddings(
 #     endpoint_url = endpoint_url,
@@ -95,10 +100,10 @@ if submit:
         Do NOT use any external resource, hyperlink or reference to answer that is not listed.
 
         if user ask a question related to patient labs results. you should be answer able to answer from lab any document.
+
         If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.please think rationally and answer from your own knowledge base
-        If the question is not about medical or healthcare, politely inform them that you are tuned to only answer questions about medical or healthcare.
         If the context is not relevant, please dont answer the question by using your own knowledge about the topic
-  
+
 
         if user asks you like frendly questions.
         start with greetings

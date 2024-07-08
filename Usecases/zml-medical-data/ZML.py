@@ -47,7 +47,7 @@ def uploaded_files(uploaded_data_files):
         print("filenames",filenames)
         # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
         # print(data)
-        reader = SimpleDirectoryReader(input_dir=filenames)
+        reader = SimpleDirectoryReader(input_dir=filenames[0])
         documents = reader.load_data()
         return documents
 

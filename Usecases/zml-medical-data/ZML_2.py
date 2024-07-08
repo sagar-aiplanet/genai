@@ -6,10 +6,11 @@ from llama_index.core import SimpleDirectoryReader
 # dr_lal_labpath.pdf"
 # DOC-20231221-WA0006.pdf"
 # lab_report_deepak_chawla.pdf
-file_path = r"/Users/hemasagarendluri1996/aiplanet/genai/Usecases/zml-medical-data/patient_data/lab_report_deepak_chawla.pdf"
-os.chdir('/Users/hemasagarendluri1996/aiplanet/genai/Usecases/zml-medical-data/patient_data/deepaks_data')
+file_path = r"/Users/hemasagarendluri1996/aiplanet/genai/unclear_pdf/lab_report_deepak_chawla.pdf"
+input_file = ["/Users/hemasagarendluri1996/aiplanet/Usecases/zml-medical-data/patient_data/Medical_record.pdf"]
+# os.chdir('/Users/hemasagarendluri1996/aiplanet/genai/Usecases/zml-medical-data/patient_data/deepaks_data')
 from beyondllm import source
-data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+data = source.fit(input_file, dtype="pdf", chunk_size=1024, chunk_overlap=0)
 print(data)
 
 # # Path to the PDF file

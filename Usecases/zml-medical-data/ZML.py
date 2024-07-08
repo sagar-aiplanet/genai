@@ -35,7 +35,7 @@ def uploaded_files(uploaded_data_files):
         return None
     else:
         print("uploaded_data_files",uploaded_data_files)
-        save_path = "~/patient_data/"
+        save_path = "./medical_data"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         filenames = []
@@ -45,11 +45,11 @@ def uploaded_files(uploaded_data_files):
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
             print("filenames",filenames)
-            # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
-            # print(data)
-        reader = SimpleDirectoryReader(input_dir=filenames[0])
-        documents = reader.load_data()
-        return documents
+        data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+        print(data)
+        # reader = SimpleDirectoryReader(input_dir=filenames[0])
+        # documents = reader.load_data()
+        return data
 
         
 
@@ -64,6 +64,7 @@ question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:
     data = uploaded_files(uploaded_data_files)
+    print(data)
     retriever = retrieve.auto_retriever(data,embed_model=embed_model,type="normal",top_k=4)
     llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})    
     if not uploaded_data_files:

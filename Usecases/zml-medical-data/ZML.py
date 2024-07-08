@@ -35,7 +35,7 @@ def uploaded_files(uploaded_data_files):
         return None
     else:
         print("uploaded_data_files",uploaded_data_files)
-        save_path = "./patient_data"
+        save_path = "./genai/Usecases/zml-medical-data/patient_data"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         filenames = []
@@ -47,7 +47,7 @@ def uploaded_files(uploaded_data_files):
             print("filenames",filenames)
             # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
             # print(data)
-            reader = SimpleDirectoryReader(input_dir=file.name)
+            reader = SimpleDirectoryReader(input_dir=filenames[0])
             documents = reader.load_data()
             return documents
 

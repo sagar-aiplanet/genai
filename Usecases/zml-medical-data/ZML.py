@@ -35,7 +35,7 @@ def uploaded_files(uploaded_data_files):
         return None
     else:
         print("uploaded_data_files",uploaded_data_files)
-        save_path = "./data"
+        save_path = "./datafiles"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         filenames = []

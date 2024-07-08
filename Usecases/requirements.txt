@@ -12,3 +12,4 @@ pdf2image
 tesseract-ocr
 poppler-utils
 llama-index-readers-file
+unstructured

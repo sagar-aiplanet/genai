@@ -44,12 +44,12 @@ def uploaded_files(uploaded_data_files):
             filenames.append(file_path)
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
-        print("filenames",filenames)
-        # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
-        # print(data)
-        reader = SimpleDirectoryReader(input_dir=filenames[0])
-        documents = reader.load_data()
-        return documents
+            print("filenames",filenames)
+            # data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+            # print(data)
+            reader = SimpleDirectoryReader(input_dir=file.name)
+            documents = reader.load_data()
+            return documents
 
         
 

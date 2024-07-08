@@ -57,7 +57,7 @@ def uploaded_files(uploaded_data_files):
 #     deployment_name=deployment_name
 # )
 data = uploaded_files(uploaded_data_files)
-print("source_data")
+print("source_data",data)
 question = st.text_input("Enter your question")
 submit=st.button("Get the data")
 if submit:

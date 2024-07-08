@@ -6,7 +6,6 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm import source
 import secrets
 import os
-from llama_index.legacy.readers.file.base import SimpleDirectoryReader
 st.title("Chat with ZML file Patient data file.")
 
 

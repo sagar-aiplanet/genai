@@ -7,8 +7,8 @@ llama_index.vector_stores.chroma
 pydot
 matplotlib
 chromadb
-pytesseract==0.3.8
-Pillow==8.3.1
+pytesseract
+Pillow
 tesseract-ocr
 PyPDF2
 PyMuPDF

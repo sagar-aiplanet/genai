@@ -6,6 +6,9 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm import source
 import secrets
 import os
+import pytesseract
+from pdf2image import convert_from_path
+from llama_index.core import SimpleDirectoryReader
 st.title("Chat with ZML file Patient data file.")
 
 
@@ -28,6 +31,20 @@ API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
 uploaded_data_files = st.file_uploader("Upload files", type=["pdf","txt"], accept_multiple_files=True, label_visibility="visible")
 
+def tesseract(filenames):
+    # Iterate through all the pages and extract text using OCR
+    for file_path in filenames:
+        # Replace with text file path
+        text_file_path = file_path[:-3]+'txt'
+        print("file_path",text_file_path)
+        pages = convert_from_path(file_path, 300)  # 300 DPI
+        with open(text_file_path, 'w') as text_file:
+            for page_num, page in enumerate(pages):
+                # Use pytesseract to extract text from the image
+                page_text = pytesseract.image_to_string(page)
+                # Write the text to the file
+                text_file.write(f"Page {page_num + 1}:\n{page_text}\n\n")
+
 def uploaded_files(uploaded_data_files):
     if not uploaded_data_files:
         return None
@@ -42,12 +59,13 @@ def uploaded_files(uploaded_data_files):
             filenames.append(file_path)
             with open(file_path, "wb") as f:
                 f.write(file.getbuffer())
-        data = source.fit(filenames, dtype="pdf", chunk_size=1024, chunk_overlap=0)
-        # reader = SimpleDirectoryReader(input_dir=filenames[0])
+        tesseract(filenames)
+        reader = SimpleDirectoryReader(input_dir='./datafiles')
+        documents = reader.load_data()
+        print(documents)
+               # reader = SimpleDirectoryReader(input_dir=filenames[0])
         # documents = reader.load_data()
-        return data
-
-        
+        return documents
 
 # embed_model = AzureAIEmbeddings(
 #     endpoint_url = endpoint_url,

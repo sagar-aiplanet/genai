@@ -37,7 +37,7 @@ def tesseract(filenames):
         # Replace with text file path
         text_file_path = file_path[:-3]+'txt'
         print("file_path",text_file_path)
-        pages = convert_from_path(file_path, 300)  # 300 DPI
+        pages = convert_from_path(file_path, poppler_path='poppler-24.02.0/Library/bin')  # 300 DPI
         with open(text_file_path, 'w') as text_file:
             for page_num, page in enumerate(pages):
                 # Use pytesseract to extract text from the image

@@ -42,7 +42,7 @@ def preprocess_image(image_path):
     return img
 from tesseract import image_to_string
 def tesseract(filenames):
-    pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+    # pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
     if not os.path.exists('pdf_images'):
         os.makedirs('pdf_images')
     for file_path in filenames:

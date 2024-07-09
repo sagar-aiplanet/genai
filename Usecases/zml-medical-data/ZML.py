@@ -40,7 +40,7 @@ def preprocess_image(image_path):
     img = enhancer.enhance(2)  # Increase contrast
     img = img.point(lambda x: 0 if x < 140 else 255, '1')  # Apply thresholding
     return img
-
+from tesseract import image_to_string
 def tesseract(filenames):
     pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
     if not os.path.exists('pdf_images'):
@@ -60,7 +60,7 @@ def tesseract(filenames):
                 # Preprocess the image
                 img = preprocess_image(image_path)
                 # Use pytesseract to extract text from the image
-                page_text = pytesseract.image_to_string(img)
+                page_text = image_to_string(img, config=)
                 # Write the text to the file
                 text_file.write(f"Page {page_num + 1}:\n{page_text}\n\n")
                 # Optionally, print the extracted text

@@ -6,7 +6,7 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm import source
 import secrets
 import os
-import pytesseract
+# import pytesseract
 from llama_index.core import SimpleDirectoryReader
 import fitz  # PyMuPDF
 from PIL import Image, ImageEnhance, ImageFilter

@@ -9,4 +9,3 @@ matplotlib
 chromadb
 pytesseract
 pdf2image
-poppler-utils

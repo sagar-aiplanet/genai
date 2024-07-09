@@ -60,7 +60,7 @@ def tesseract(filenames):
                 # Preprocess the image
                 img = preprocess_image(image_path)
                 # Use pytesseract to extract text from the image
-                page_text = image_to_string(img, config=)
+                page_text = image_to_string(img)
                 # Write the text to the file
                 text_file.write(f"Page {page_num + 1}:\n{page_text}\n\n")
                 # Optionally, print the extracted text

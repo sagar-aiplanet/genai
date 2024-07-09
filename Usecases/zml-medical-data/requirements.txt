@@ -8,7 +8,6 @@ pydot
 matplotlib
 chromadb
 pytesseract
-Pillow
+Pillow 
 PyPDF2
 PyMuPDF
-Pillow

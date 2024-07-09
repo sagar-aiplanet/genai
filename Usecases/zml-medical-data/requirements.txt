@@ -11,3 +11,4 @@ pytesseract
 PyPDF2
 PyMuPDF
 Pillow
+libtesseract-dev

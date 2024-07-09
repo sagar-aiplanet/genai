@@ -8,4 +8,5 @@ pydot
 matplotlib
 chromadb
 pytesseract
-pdf2image
+PyMuPDF
+Pillow

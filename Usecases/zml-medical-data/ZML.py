@@ -9,6 +9,8 @@ import os
 import pytesseract
 from pdf2image import convert_from_path
 from llama_index.core import SimpleDirectoryReader
+import fitz  # PyMuPDF
+from PIL import Image, ImageEnhance, ImageFilter
 st.title("Chat with ZML file Patient data file.")
 
 
@@ -31,19 +33,44 @@ API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
 uploaded_data_files = st.file_uploader("Upload files", type=["pdf","txt"], accept_multiple_files=True, label_visibility="visible")
 
+def preprocess_image(image_path):
+    img = Image.open(image_path)
+    img = img.convert('L')  # Convert to grayscale
+    img = img.filter(ImageFilter.MedianFilter())  # Apply a median filter
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(2)  # Increase contrast
+    img = img.point(lambda x: 0 if x < 140 else 255, '1')  # Apply thresholding
+    return img
+
 def tesseract(filenames):
     # Iterate through all the pages and extract text using OCR
+    pdf_path = file_path
+    pdf_document = fitz.open(pdf_path)
+    if not os.path.exists('pdf_images'):
+        os.makedirs('pdf_images')
     for file_path in filenames:
-        # Replace with text file path
+        # Replace with text file extension
         text_file_path = file_path[:-3]+'txt'
         print("file_path",text_file_path)
-        pages = convert_from_path(file_path, poppler_path='poppler-24.02.0/Library/bin')  # 300 DPI
-        with open(text_file_path, 'w') as text_file:
-            for page_num, page in enumerate(pages):
+        # Extract text from each page and save to a text file
+        with open('extracted_text.txt', 'w') as text_file:
+            for page_num in range(len(pdf_document)):
+                page = pdf_document.load_page(page_num)
+                pix = page.get_pixmap(dpi=300)  #convert pdf to image
+                # Save the image
+                image_path = f'pdf_images/page_{page_num + 1}.png'
+                pix.save(image_path)
+                # Preprocess the image
+                img = preprocess_image(image_path)
                 # Use pytesseract to extract text from the image
-                page_text = pytesseract.image_to_string(page)
+                page_text = pytesseract.image_to_string(img)
                 # Write the text to the file
                 text_file.write(f"Page {page_num + 1}:\n{page_text}\n\n")
+                # Optionally, print the extracted text
+                print(f"Page {page_num + 1}:\n{page_text}\n")
+        # Optionally, delete the images after processing
+        import shutil
+        shutil.rmtree('pdf_images')
 
 def uploaded_files(uploaded_data_files):
     if not uploaded_data_files:

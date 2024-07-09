@@ -7,7 +7,6 @@ from beyondllm import source
 import secrets
 import os
 import pytesseract
-from pdf2image import convert_from_path
 from llama_index.core import SimpleDirectoryReader
 import fitz  # PyMuPDF
 from PIL import Image, ImageEnhance, ImageFilter

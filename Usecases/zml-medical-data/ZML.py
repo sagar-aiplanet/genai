@@ -42,17 +42,14 @@ def preprocess_image(image_path):
     return img
 
 def tesseract(filenames):
-    # Iterate through all the pages and extract text using OCR
-    pdf_path = file_path
-    pdf_document = fitz.open(pdf_path)
     if not os.path.exists('pdf_images'):
         os.makedirs('pdf_images')
     for file_path in filenames:
         # Replace with text file extension
+        pdf_document = fitz.open(file_path)
         text_file_path = file_path[:-3]+'txt'
-        print("file_path",text_file_path)
         # Extract text from each page and save to a text file
-        with open('extracted_text.txt', 'w') as text_file:
+        with open(text_file_path, 'w') as text_file:
             for page_num in range(len(pdf_document)):
                 page = pdf_document.load_page(page_num)
                 pix = page.get_pixmap(dpi=300)  #convert pdf to image

@@ -7,7 +7,7 @@ llama_index.vector_stores.chroma
 pydot
 matplotlib
 chromadb
-pytesseract
+tesseract
 PyPDF2
 PyMuPDF
 Pillow

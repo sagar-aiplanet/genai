@@ -7,4 +7,5 @@ llama_index.vector_stores.chroma
 pydot
 matplotlib
 chromadb
-
+pytesseract
+pdf2image

@@ -8,7 +8,6 @@ pydot
 matplotlib
 chromadb
 pytesseract
-tesseract-ocr
 PyPDF2
 PyMuPDF
 Pillow

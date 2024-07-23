@@ -31,17 +31,15 @@ BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
 # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
 embed_model = embeddings.AzureAIEmbeddings(
-                endpoint_url=endpoint_url,
-                azure_key=api_version,
-                api_version=api_version,
-                deployment_name=deployment_name)
-
+                    endpoint_url="https://marketplace.openai.azure.com/",
+                    azure_key="d6d9522a01c74836907af2f3fd72ff85",
+                    api_version="2024-02-01",
+                    deployment_name="text-embed-marketplace")
+BASE_URL = "https://gpt-res.openai.azure.com/"
+DEPLOYMENT_NAME = "gpt-4-32k" 
+API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
 retriever = retrieve.auto_retriever(data, embed_model, type="normal", top_k=4)
-
-BASE_URL = BASE_URL
-DEPLOYMENT_NAME= "gpt-4-32k" 
-API_KEY = API_KEY
 llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name=DEPLOYMENT_NAME ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
 
 question = st.text_input(label='Type your question')

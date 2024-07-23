@@ -8,13 +8,7 @@ from beyondllm.llms import AzureOpenAIModel
 from beyondllm.embeddings import AzureAIEmbeddings
 from beyondllm import source,retrieve,embeddings,llms,generator
 
-# endpoint_url = st.secrets.azure_embeddings_credentials.ENDPOINT_URL
-# azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
-# api_version = st.secrets.azure_embeddings_credentials.API_VERSION
-# deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
-# BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
-# # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
-# API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
+
 # st.title("Respectus decision tree generator")
 
 
@@ -23,19 +17,17 @@ from beyondllm import source,retrieve,embeddings,llms,generator
 
 st.title("Respectus decision tree generator")
 
-def embeddings_llm(data):
-    embed_model = embeddings.AzureAIEmbeddings(
-                    endpoint_url="https://marketplace.openai.azure.com/",
-                    azure_key="d6d9522a01c74836907af2f3fd72ff85",
-                    api_version="2024-02-01",
-                    deployment_name="text-embed-marketplace")
-    BASE_URL = "https://gpt-res.openai.azure.com/"
-    DEPLOYMENT_NAME = "gpt-4-32k" 
-    API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
+# def embeddings_llm(data):
+#     embed_model = embeddings.AzureAIEmbeddings(
+#                     endpoint_url="https://marketplace.openai.azure.com/",
+#                     azure_key="d6d9522a01c74836907af2f3fd72ff85",
+#                     api_version="2024-02-01",
+#                     deployment_name="text-embed-marketplace")
+#     BASE_URL = "https://gpt-res.openai.azure.com/"
+#     DEPLOYMENT_NAME = "gpt-4-32k" 
+#     API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
-    retriever = retrieve.auto_retriever(data, embed_model, type="normal", top_k=4)
-    llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name=DEPLOYMENT_NAME ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
-    return retriever, llm
+        # return retriever, llm
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
 
 def uploaded_files(uploaded_file):
@@ -49,7 +41,18 @@ def uploaded_files(uploaded_file):
             data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=0)
             return data
 data = uploaded_files(uploaded_file)
-retriever,llm  = embeddings_llm(data)
+endpoint_url = st.secrets.azure_embeddings_credentials.ENDPOINT_URL
+azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
+api_version = st.secrets.azure_embeddings_credentials.API_VERSION
+deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
+BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
+# DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
+API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
+# retriever,llm  = embeddings_llm(data)
+
+retriever = retrieve.auto_retriever(data, embed_model, type="normal", top_k=4)
+llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name=DEPLOYMENT_NAME ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
+
 question = st.text_input(label='Type your question')
 submit=st.button("Generate results")
 if submit:

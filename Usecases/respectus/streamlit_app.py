@@ -30,9 +30,18 @@ deployment_name = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 BASE_URL = st.secrets.azure_embeddings_credentials.BASE_URL
 # DEPLOYMENT_NAME = st.secrets.azure_embeddings_credentials.DEPLOYMENT_NAME
 API_KEY = st.secrets.azure_embeddings_credentials.API_KEY
-# retriever,llm  = embeddings_llm(data)
+embed_model = embeddings.AzureAIEmbeddings(
+                endpoint_url=endpoint_url,
+                azure_key=api_version,
+                api_version=api_version,
+                deployment_name=deployment_name)
+
 
 retriever = retrieve.auto_retriever(data, embed_model, type="normal", top_k=4)
+
+BASE_URL = BASE_URL
+DEPLOYMENT_NAME= "gpt-4-32k" 
+API_KEY = API_KEY
 llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name=DEPLOYMENT_NAME ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
 
 question = st.text_input(label='Type your question')

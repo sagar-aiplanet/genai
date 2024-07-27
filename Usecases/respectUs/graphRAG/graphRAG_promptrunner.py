@@ -75,7 +75,7 @@ user_input = st.text_input("Enter your question", key="input")
 submit=st.button("Generate results")
 if user_input:
     with st.spinner("Processing your question..."):
-        st.session_state.user_msgs.append(user_input)
+
         start = timer()
 
         try:

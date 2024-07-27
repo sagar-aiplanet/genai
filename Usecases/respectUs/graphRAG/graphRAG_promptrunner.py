@@ -25,6 +25,8 @@ NEO4J_USERNAME = st.secrets.azure_embeddings_credentials.NEO4J_USERNAME
 NEO4J_PASSWORD = st.secrets.azure_embeddings_credentials.NEO4J_PASSWORD
 NEO4J_DATABASE = st.secrets.azure_embeddings_credentials.NEO4J_DATABASE
 
+print(NEO4J_URI,NEO4J_USERNAME)
+
 
 os.environ['AZURE_OPENAI_API_KEY'] = NEO4J_URI
 os.environ["AZURE_OPENAI_ENDPOINT"] = NEO4J_USERNAME

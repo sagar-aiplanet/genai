@@ -12,11 +12,13 @@ import dotenv
 import os
 
 dotenv.load_dotenv()
-os.getenv("AZURE_OPENAI_API_KEY")
-os.getenv("AZURE_OPENAI_ENDPOINT")
+endpoint_url = st.secrets.azure_embeddings_credentials.ENDPOINT_URL
+azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
 
-# os.environ['AZURE_OPENAI_API_KEY'] = os.getenv("AZURE_OPENAI_API_KEY")
-# os.environ["AZURE_OPENAI_ENDPOINT"] = "https://gpt-res.openai.azure.com/"
+os.environ['AZURE_OPENAI_API_KEY'] = azure_key
+os.environ["AZURE_OPENAI_ENDPOINT"] =endpoint_url
+
+
 
 
 from langchain_openai import AzureChatOpenAI

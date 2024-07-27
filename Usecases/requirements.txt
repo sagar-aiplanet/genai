@@ -6,7 +6,7 @@ llama-index-embeddings-azure_openai
 llama_index.vector_stores.chroma
 llama-index==0.10.27 ; python_version >= "3.9" and python_version < "3.12"
 llama-index-core==0.10.34 ; python_version >= "3.9" and python_version < "3.12"
-
+langchain-community
 pydot
 matplotlib
 chromadb

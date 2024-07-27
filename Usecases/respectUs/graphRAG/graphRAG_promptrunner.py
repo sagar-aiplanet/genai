@@ -72,6 +72,7 @@ def query_graph(user_input):
 # user_input = "Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, entities or bodies in Iran or for use in Iran?"
 
 user_input = st.text_input("Enter your question", key="input")
+submit=st.button("Generate results")
 if user_input:
     with st.spinner("Processing your question..."):
         st.session_state.user_msgs.append(user_input)

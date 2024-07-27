@@ -84,18 +84,6 @@ if submit:
 
 
     '''
-        # embed_model = AzureAIEmbeddings(
-        #       endpoint_url = endpoint_url,
-        #       azure_key = azure_key,
-        #       api_version= api_version,
-        #       deployment_name=deployment_name
-        #   )
-
-        # retriever = retrieve.auto_retriever(data, embed_model, type="normal", top_k=4)
-        # llm = AzureOpenAIModel(model="gpt4",azure_key = API_KEY,deployment_name="gpt-4-32k" ,endpoint_url=BASE_URL,model_kwargs={"max_tokens":512,"temperature":0.1})
-        # pipeline = generator.Generate(question=question, system_prompt=system_prompt, retriever=retriever, llm=llm)
-        # -----------------------------------------------------------------------------
-
     pipeline = generator.Generate(question=question, system_prompt=system_prompt, retriever=retriever, llm=llm)
     decision_tree_json = pipeline.call()
     print(decision_tree_json)
@@ -103,51 +91,6 @@ if submit:
     print(data)
     # For user queiry control 
 
-    # def json_to_graph(graph, parent_label, parent_node):
-    #     if isinstance(parent_node, dict):
-    #         for key, value in parent_node.items():
-    #             if key in ["Yes", "No"]:
-    #                 option_label = parent_label + "_" + key
-    #                 node = pydot.Node(option_label, label=key, shape='box', style='filled', fillcolor='lightgreen' if key == "Yes" else 'lightcoral')
-    #                 graph.add_node(node)
-    #                 edge = pydot.Edge(parent_label, option_label)
-    #                 graph.add_edge(edge)
-    #                 if isinstance(value, dict):
-    #                     for sub_key, sub_value in value.items():
-    #                         if sub_key.startswith("Question"):
-    #                             question_label = option_label + "_" + sub_key
-    #                             question_text = "\n".join(sub_value[i:i+30] for i in range(0, len(sub_value), 30))
-    #                             node = pydot.Node(question_label, label=question_text, shape='box', style='filled', fillcolor='lightblue')
-    #                             graph.add_node(node)
-    #                             edge = pydot.Edge(option_label, question_label)
-    #                             graph.add_edge(edge)
-    #                             json_to_graph(graph, question_label, value)
-    #                         else:
-    #                             json_to_graph(graph, option_label, value)
-    #             elif key == "Result":
-    #                 result_label = parent_label + "_" + key
-    #                 result_str = f"{key}: {value}"
-    #                 node = pydot.Node(result_label, label=result_str, shape='box', style='filled', fillcolor='lightgrey')
-    #                 graph.add_node(node)
-    #                 edge = pydot.Edge(parent_label, result_label)
-    #                 graph.add_edge(edge)
-    #             elif key.startswith("Question"):
-    #                 continue
-
-    # graph = pydot.Dot(graph_type='graph')
-
-    # start_label = data['Question1']["Question"]
-    # start_question = data[start_label]
-    # question_text = "\n".join(start_label[i:i+100] for i in range(0, len(start_label), 100))
-    # start_node = pydot.Node(start_label, label=question_text, shape='box', style='filled', fillcolor='lightblue')
-    # graph.add_node(start_node)
-
-    # json_to_graph(graph, start_label, start_question)
-
-    # graph.write_png('decision_tree.png')
-    # Function to recursively create nodes and edges in the grap
-    # Create a new graph
-    # Create a new directed graph
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
     def json_to_graph(graph, parent_label, parent_node):
         if isinstance(parent_node, dict):

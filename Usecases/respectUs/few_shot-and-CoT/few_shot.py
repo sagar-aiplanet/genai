@@ -240,11 +240,27 @@ if submit:
     answer = negotiate_chain.invoke({"question":question})
     import pydot
     dot_content = answer
-    # import networkx as nx
+    import networkx as nx
 
     # Create a graph from DOT content
-    graphs= pydot.graph_from_dot_data(dot_content)
+
+    # Write DOT content to a .dot file
+    dot_file_path = 'flowchart.dot'
+    with open(dot_file_path, 'w') as dot_file:
+        dot_file.write(dot_content)
+
+    # Create a Pydot graph from the DOT file
+    graphs = pydot.graph_from_dot_file(dot_file_path)
     graph = graphs[0]
+
+    # Save the graph to a PNG file
+    png_file_path = 'flowchart.png'
+    graph.write_png(png_file_path)
+
+
+
+    # graphs= pydot.graph_from_dot_data(dot_content)
+    # graph = graphs[0]
     # image_name='dot_graph_2.png'
     # graph.write_raw(image_name)
 
@@ -263,6 +279,5 @@ if submit:
     #             mime="image/png"
     #             )
     with st.chat_message(""):
-        # st.image(image_name, caption="tree_from_json")
+        st.image(dot_file_path, caption="tree_from_json")
         # st.graphviz_chart(graph)
-        st.graphviz_chart(graph)

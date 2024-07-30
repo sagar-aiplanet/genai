@@ -5,3 +5,4 @@ langchain_core
 unstructured
 unstructured[pdf]
 Chromadb
+streamlit

@@ -14,6 +14,7 @@ from langchain.prompts import (
 )
 from operator import itemgetter
 import streamlit as st
+import graphviz
 # import ssl
 
 # ssl._create_default_https_context = ssl._create_stdlib_context
@@ -213,7 +214,6 @@ submit=st.button("Generate results")
 if submit:
     question = question
     raw_doc = uploaded_files(uploaded_file)
-    print(raw_doc)
     # segmenting the document into segments
     text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
     texts = text_splitter.split_documents(raw_doc)
@@ -251,7 +251,6 @@ if submit:
     st.write("Graph Visualization")
     st.graphviz_chart(dot_content)
 
-
     # graphs= pydot.graph_from_dot_data(dot_content)
     # graph = graphs[0]
     # image_name='dot_graph_2.png'
@@ -271,6 +270,6 @@ if submit:
     #             file_name=image_name,
     #             mime="image/png"
     #             )
-    with st.chat_message(""):
-        st.image(dot_file_path, caption="tree_from_json")
+    # with st.chat_message(""):
+    #     st.image(dot_file_path, caption="tree_from_json")
         # st.graphviz_chart(graph)

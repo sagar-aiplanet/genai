@@ -54,98 +54,97 @@ embeddings = AzureOpenAIEmbeddings(
 
 dot_format = """ digraph G {
 
-  // Start node
-  start [shape=ellipse, label="Start"];
+                // Start node
+                start [shape=ellipse, label="Start"];
 
-  // First question
-  start -> product_question;
-  product_question [shape=Mdiamond, label="What is your product?"];
+                // First question
+                start -> product_question;
+                product_question [shape=Mdiamond, label="What is your product?"];
 
-  // Leads to another stream
-  product_question -> leads_another_stream [label="Not related"];
-  leads_another_stream [shape=box, label="LEADS TO ANOTHER STREAM"];
+                // Leads to another stream
+                product_question -> leads_another_stream [label="Not related"];
+                leads_another_stream [shape=box, label="LEADS TO ANOTHER STREAM"];
 
-  // Second question
-  product_question -> uav_question [label="Related"];
-  uav_question [shape=Mdiamond, label="Goods contribute to Iran’s UAVs?"];
+                // Second question
+                product_question -> uav_question [label="Related"];
+                uav_question [shape=Mdiamond, label="Goods contribute to Iran’s UAVs?"];
 
-  // Third question
-  uav_question -> classification_question [label="Yes"];
-  classification_question [shape=Mdiamond, label="How is your product classified?"];
+                // Third question
+                uav_question -> classification_question [label="Yes"];
+                classification_question [shape=Mdiamond, label="How is your product classified?"];
 
-  // Annex I
-  classification_question -> annex1 [label="Annex I"];
-  annex1 [shape=box, label="Annex I of council regulation 2021/1821"];
-  annex1 -> authorization1 [label=""];
-  authorization1 [shape=box, label="Subject to an authorization Luxembourg export council law of 27 June 2024"];
+                // Annex I
+                classification_question -> annex1 [label="Annex I"];
+                annex1 [shape=box, label="Annex I of council regulation 2021/1821"];
+                annex1 -> authorization1 [label=""];
+                authorization1 [shape=box, label="Subject to an authorization Luxembourg export council law of 27 June 2024"];
 
-  // Annex II
-  classification_question -> annex2 [label="Annex II"];
-  annex2 [shape=box, label="Annex II of council regulation 2023/1593"];
-  annex2 -> iran_question [label=""];
+                // Annex II
+                classification_question -> annex2 [label="Annex II"];
+                annex2 [shape=box, label="Annex II of council regulation 2023/1593"];
+                annex2 -> iran_question [label=""];
 
-  // Fourth question
-  iran_question -> export_iran [label="Yes"];
-  iran_question [shape=Mdiamond, label="Exporting to Iran?"];
+                // Fourth question
+                iran_question -> export_iran [label="Yes"];
+                iran_question [shape=Mdiamond, label="Exporting to Iran?"];
 
-  // Fifth question
-  iran_question -> export_other_country [label="No"];
-  export_other_country [shape=Mdiamond, label="Exporting to another country for use in Iran?"];
+                // Fifth question
+                iran_question -> export_other_country [label="No"];
+                export_other_country [shape=Mdiamond, label="Exporting to another country for use in Iran?"];
 
-  // Not Restricted
-  export_other_country -> not_restricted [label="No"];
-  not_restricted [shape=box, label="Not Restricted EU Regulation 2023/1529 of 20 July 2023 Article-2"];
+                // Not Restricted
+                export_other_country -> not_restricted [label="No"];
+                not_restricted [shape=box, label="Not Restricted EU Regulation 2023/1529 of 20 July 2023 Article-2"];
 
-  // Sixth question
-  export_iran -> contract_question [label="Yes"];
-  contract_question [shape=Mdiamond, label="Obligations from contract before 26 July 2023?"];
+                // Sixth question
+                export_iran -> contract_question [label="Yes"];
+                contract_question [shape=Mdiamond, label="Obligations from contract before 26 July 2023?"];
 
-  // Seventh question
-  contract_question -> operation_date_question [label="Yes"];
-  operation_date_question [shape=Mdiamond, label="Export operated before 27 October 2023?"];
+                // Seventh question
+                contract_question -> operation_date_question [label="Yes"];
+                operation_date_question [shape=Mdiamond, label="Export operated before 27 October 2023?"];
 
-  // Eighth question
-  contract_question -> non_military_use [label="No"];
-  non_military_use [shape=Mdiamond, label="Export for non-military use?"];
+                // Eighth question
+                contract_question -> non_military_use [label="No"];
+                non_military_use [shape=Mdiamond, label="Export for non-military use?"];
 
-  // Ninth question
-  non_military_use -> non_military_end_user [label="Yes"];
-  non_military_end_user [shape=Mdiamond, label="Export for non-military end-user?"];
+                // Ninth question
+                non_military_use -> non_military_end_user [label="Yes"];
+                non_military_end_user [shape=Mdiamond, label="Export for non-military end-user?"];
 
-  // Tenth question
-  non_military_end_user -> purpose_question [label="Yes"];
-  purpose_question [shape=Mdiamond, label="Purpose of goods or technology?"];
+                // Tenth question
+                non_military_end_user -> purpose_question [label="Yes"];
+                purpose_question [shape=Mdiamond, label="Purpose of goods or technology?"];
 
-  // Specific purposes
-  purpose_question -> medical_purpose [label="Medical purpose"];
-  medical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                // Specific purposes
+                purpose_question -> medical_purpose [label="Medical purpose"];
+                medical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  purpose_question -> pharmaceutical_purpose [label="Pharmaceutical purposes"];
-  pharmaceutical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                purpose_question -> pharmaceutical_purpose [label="Pharmaceutical purposes"];
+                pharmaceutical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  purpose_question -> humanitarian_purpose [label="Humanitarian purpose"];
-  humanitarian_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                purpose_question -> humanitarian_purpose [label="Humanitarian purpose"];
+                humanitarian_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  purpose_question -> health_emergency [label="Health emergency"];
-  health_emergency [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                purpose_question -> health_emergency [label="Health emergency"];
+                health_emergency [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  purpose_question -> urgent_prevention [label="Urgent prevention or mitigation"];
-  urgent_prevention [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                purpose_question -> urgent_prevention [label="Urgent prevention or mitigation"];
+                urgent_prevention [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  purpose_question -> natural_disasters [label="Response to natural disasters"];
-  natural_disasters [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                purpose_question -> natural_disasters [label="Response to natural disasters"];
+                natural_disasters [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
 
-  // Prohibited
-  purpose_question -> prohibited [label="Any other purpose"];
-  prohibited [shape=box, label="Prohibited EU Regulation 2023"];
+                // Prohibited
+                purpose_question -> prohibited [label="Any other purpose"];
+                prohibited [shape=box, label="Prohibited EU Regulation 2023"];
 
-  // Other endings
-  operation_date_question -> not_restricted [label="Yes"];
-  non_military_use -> prohibited [label="No"];
-  non_military_end_user -> prohibited [label="No"];
+                // Other endings
+                operation_date_question -> not_restricted [label="Yes"];
+                non_military_use -> prohibited [label="No"];
+                non_military_end_user -> prohibited [label="No"];
 
-}
-"""
+            } """
 
 st.title("Respectus decision tree generator")
 

@@ -244,19 +244,12 @@ if submit:
 
     # Create a graph from DOT content
 
-    # Write DOT content to a .dot file
-    dot_file_path = 'flowchart.dot'
-    with open(dot_file_path, 'w') as dot_file:
-        dot_file.write(dot_content)
+    # Create a Graphviz source object
+    graph = graphviz.Source(dot_content)
 
-    # Create a Pydot graph from the DOT file
-    graphs = pydot.graph_from_dot_file(dot_file_path)
-    graph = graphs[0]
-
-    # Save the graph to a PNG file
-    png_file_path = 'flowchart.png'
-    graph.write_png(png_file_path)
-
+    # Render the graph to PNG and display in Streamlit
+    st.write("Graph Visualization")
+    st.graphviz_chart(dot_content)
 
 
     # graphs= pydot.graph_from_dot_data(dot_content)

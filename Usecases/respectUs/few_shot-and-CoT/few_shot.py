@@ -179,9 +179,8 @@ def uploaded_files(uploaded_file):
             from langchain.document_loaders import PyPDFLoader
             loader = PyPDFLoader(file_path)
             pages = loader.load_and_split()
-            print(pages)
             # data = loader.load()
-            return pages
+            return pages[0]
 
 
 few_shot_examples = [

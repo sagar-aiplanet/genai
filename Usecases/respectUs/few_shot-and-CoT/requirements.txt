@@ -2,7 +2,6 @@ langchain-openai
 langchain
 langchain_community
 langchain_core
-unstructured
 unstructured[pdf]
-Chromadb
+chromadb==0.5.3
 streamlit

@@ -14,13 +14,24 @@ from langchain.prompts import (
 )
 from operator import itemgetter
 import streamlit as st
+import ssl
 
+ssl._create_default_https_context = ssl._create_stdlib_context
+import nltk
+# # nltk.download('punkt')
+# nltk.download('popular')
 
-AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
-AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
+# AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
+# AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
 
-api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
-deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
+# api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
+# deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
+
+EMBEDDING_ENDPOINT_URL = "https://marketplace.openai.azure.com/"
+AZURE_OPENAI_API_KEY = "d6d9522a01c74836907af2f3fd72ff85"
+
+deployment_name = "https://gpt-res.openai.azure.com/"
+api_version = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
 os.environ['AZURE_OPENAI_API_KEY'] = api_version
 os.environ["AZURE_OPENAI_ENDPOINT"] = deployment_name
@@ -41,7 +52,7 @@ import os
 
 
 os.environ["AZURE_OPENAI_API_KEY"] = AZURE_OPENAI_API_KEY
-os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_OPENAI_ENDPOINT
+os.environ["AZURE_OPENAI_ENDPOINT"] = EMBEDDING_ENDPOINT_URL
 
 from langchain_openai import AzureOpenAIEmbeddings
 
@@ -149,7 +160,6 @@ st.title("Respectus decision tree generator")
 
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
 
-print(uploaded_file)
 
 def uploaded_files(uploaded_file):
     if uploaded_file is not None:
@@ -159,11 +169,11 @@ def uploaded_files(uploaded_file):
         file_path = os.path.join(save_path, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
-            print(file_path)
-            data = UnstructuredFileLoader("CELEX_32023R1529_EN_TXT.pdf").load()
-            # raw_doc = loader.
+            loader = UnstructuredFileLoader(file_path)
+            data = loader.load()
             return data
-raw_doc = uploaded_files(uploaded_file)
+
+
 few_shot_examples = [
 {"input":"Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, \
 entities or bodies in Iran or for use in Iran?",
@@ -193,8 +203,8 @@ question = st.text_input(label='Type your question')
 submit=st.button("Generate results")
 if submit:
     question = question
-    
-
+    raw_doc = uploaded_files(uploaded_file)
+    print(raw_doc)
     # segmenting the document into segments
     text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
     texts = text_splitter.split_documents(raw_doc)
@@ -207,7 +217,8 @@ if submit:
         search_kwargs={'k':4}
     )
 
-
+    def format_docs(docs):
+         return "\n\n".join(doc.page_content for doc in docs)
     # Langchain Expression Language to call our LLM using the prompt template above
     # RAG chain
     negotiate_chain = (
@@ -217,21 +228,23 @@ if submit:
         | llm
         | StrOutputParser()
         )
-    answer = negotiate_chain.invoke({"question":"For what purpose goods and technology are necessary?"})
+    answer = negotiate_chain.invoke({"question":question})
+    print(answer)
     import pydot
     dot_content = answer
     # Create a graph from DOT content
     graphs = pydot.graph_from_dot_data(dot_content)
     graph = graphs[0]
-
     # Save the graph to a PNG file
     graph.write_png('dot_graph_2.png')
-    with open('dot_graph_2.png', "rb") as file:
-        
 
+    image_name='dot_graph_2.png'
+    with open('dot_graph_2.png', "rb") as file:
         btn = st.download_button(
                 label="Download image",
                 data=file,
                 file_name=image_name,
                 mime="image/png"
                 )
+    with st.chat_message(""):
+        st.image(image_name, caption="tree_from_json")

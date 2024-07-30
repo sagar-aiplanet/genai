@@ -249,18 +249,20 @@ if submit:
     # graph.write_raw(image_name)
 
     # # graph.draw('dot_graph_2.png')
-    image_name='dot_graph_2.png'
+    # image_name='dot_graph_2.png'
 
-    # Convert to NetworkX graph
-    nx_graph = nx.nx_pydot.from_pydot(graph)
+    # # Convert to NetworkX graph
+    # nx_graph = nx.nx_pydot.from_pydot(graph)
 
-    nx.drawing.nx_pydot.write_dot(nx_graph, image_name)
-    with open('dot_graph_2.png', "rb") as file:
-        btn = st.download_button(
-                label="Download image",
-                data=file,
-                file_name=image_name,
-                mime="image/png"
-                )
+    # nx.drawing.nx_pydot.write_dot(nx_graph, image_name)
+    # with open('dot_graph_2.png', "rb") as file:
+    #     btn = st.download_button(
+    #             label="Download image",
+    #             data=file,
+    #             file_name=image_name,
+    #             mime="image/png"
+    #             )
     with st.chat_message(""):
-        st.image(image_name, caption="tree_from_json")
+        # st.image(image_name, caption="tree_from_json")
+        # st.graphviz_chart(graph)
+        st.graphviz_chart(graph)

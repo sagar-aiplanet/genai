@@ -148,6 +148,9 @@ st.title("Respectus decision tree generator")
 
 
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+
+print(uploaded_file)
+
 def uploaded_files(uploaded_file):
     if uploaded_file is not None:
         save_path = "./uploaded_files"
@@ -160,7 +163,7 @@ def uploaded_files(uploaded_file):
             data = UnstructuredFileLoader("uploaded_files/CELEX_32023R1529_EN_TXT.pdf").load()
             # raw_doc = loader.
             return data
-
+raw_doc = uploaded_files(uploaded_file)
 few_shot_examples = [
 {"input":"Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, \
 entities or bodies in Iran or for use in Iran?",
@@ -190,7 +193,7 @@ question = st.text_input(label='Type your question')
 submit=st.button("Generate results")
 if submit:
     question = question
-    raw_doc = uploaded_files(uploaded_file)
+    
 
     # segmenting the document into segments
     text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)

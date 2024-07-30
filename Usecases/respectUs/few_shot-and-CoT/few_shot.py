@@ -177,7 +177,6 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
     examples=few_shot_examples,
 )
 
-print(few_shot_prompt.format())
 negotiate_prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a business analyst with extensive knowledge of legal documents and regulatory documentation.Your task is to create a use-case model that accurately captures regulatory requirements and compliance obligations from a given context.Begin by thoroughly understanding the rules and exceptions, ensuring no detail is overlooked. Read every article and paragraph meticulously, focusing on key elements such as goods, technology, manufacture, legal entities, and authorization requirements, while also considering any restrictions mentioned. Pay special attention to Annex I and II, especially if they contain multiple paragraphs, to ensure no critical details are missed.Distinguish clearly between prohibitions and obligations to maintain accuracy. Ensure every line is considered, avoiding any omissions.Finally, translate your findings into a detailed digraph G format."),
 few_shot_prompt,

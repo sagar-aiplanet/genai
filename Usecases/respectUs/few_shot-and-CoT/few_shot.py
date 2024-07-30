@@ -153,7 +153,7 @@ dot_format = """ digraph G {
                 non_military_use -> prohibited [label="No"];
                 non_military_end_user -> prohibited [label="No"]; } """
 
-st.title("Respectus decision tree generator")
+st.title("Respectus Export decision flow Graph")
 
 
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
@@ -228,49 +228,18 @@ if submit:
         | StrOutputParser()
         )
     answer = negotiate_chain.invoke({"question":question})
-    import pydot
     dot_content = answer
-    # import networkx as nx
-
-    # Create a graph from DOT content
-
-    # Create a Graphviz source object
     graph = graphviz.Source(dot_content)
-
-    # Render the graph to PNG and display in Streamlit
-    st.write(" Visualization")
+    st.write("RespectUs-Export-Visualization")
     st.graphviz_chart(dot_content)
-    # Render the graph to a BytesIO object
-    # Render the graph to a PNG image in memory
-    img_bytes = graph.pipe(format='png')
-
-    # Display the image in Streamlit
-    st.write("Graph Visualization")
-    st.image(img_bytes, use_column_width=True)
-
-    # Provide a download button for the PNG image
-    st.download_button(
-        label="Download Graph as PNG",
-        data=img_bytes,
-        file_name="graph.png",
-        mime="image/png"
-    )
-
-
-    # png_image = BytesIO()
-    # graph.format = 'png'
-    # graph.render(filename='graph', format='png', cleanup=False, directory=None)
-    # with open('graph.png', 'rb') as f:
-    #     png_image.write(f.read())
-
-    # # Display the graph in Streamlit
+    # img_bytes = graph.pipe(format='png')
     # st.write("Graph Visualization")
-    # st.image(png_image, use_column_width=True)
+    # st.image(img_bytes, use_column_width=True)
 
-    # # Provide a download button for the PNG file
+    # # Provide a download button for the PNG image
     # st.download_button(
     #     label="Download Graph as PNG",
-    #     data=png_image.getvalue(),
+    #     data=img_bytes,
     #     file_name="graph.png",
     #     mime="image/png"
     # )

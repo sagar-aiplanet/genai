@@ -248,28 +248,23 @@ if submit:
     graph = graphviz.Source(dot_content)
 
     # Render the graph to PNG and display in Streamlit
+    # st.write("Graph Visualization")
+    # st.graphviz_chart(dot_content)
+    # Render the graph to a BytesIO object
+    png_image = BytesIO()
+    graph.format = 'png'
+    graph.render(filename='graph', format='png', cleanup=False, directory=None)
+    with open('graph.png', 'rb') as f:
+        png_image.write(f.read())
+
+    # Display the graph in Streamlit
     st.write("Graph Visualization")
-    st.graphviz_chart(dot_content)
+    st.image(png_image, use_column_width=True)
 
-    # graphs= pydot.graph_from_dot_data(dot_content)
-    # graph = graphs[0]
-    # image_name='dot_graph_2.png'
-    # graph.write_raw(image_name)
-
-    # # graph.draw('dot_graph_2.png')
-    # image_name='dot_graph_2.png'
-
-    # # Convert to NetworkX graph
-    # nx_graph = nx.nx_pydot.from_pydot(graph)
-
-    # nx.drawing.nx_pydot.write_dot(nx_graph, image_name)
-    # with open('dot_graph_2.png', "rb") as file:
-    #     btn = st.download_button(
-    #             label="Download image",
-    #             data=file,
-    #             file_name=image_name,
-    #             mime="image/png"
-    #             )
-    # with st.chat_message(""):
-    #     st.image(dot_file_path, caption="tree_from_json")
-        # st.graphviz_chart(graph)
+    # Provide a download button for the PNG file
+    st.download_button(
+        label="Download Graph as PNG",
+        data=png_image.getvalue(),
+        file_name="graph.png",
+        mime="image/png"
+    )

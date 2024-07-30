@@ -156,6 +156,7 @@ def uploaded_files(uploaded_file):
         file_path = os.path.join(save_path, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
+            print(file_path)
             data = UnstructuredFileLoader(file_path).load()
             # raw_doc = loader.
             return data

@@ -45,19 +45,6 @@ embeddings = AzureOpenAIEmbeddings(
     azure_deployment="text-embed-marketplace",
     openai_api_version="2024-02-01",
 )
-
-# segmenting the document into segments
-text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-texts = text_splitter.split_documents(raw_doc)
-# Document Embedding with Chromadb
-
-docsearch = Chroma.from_documents(texts, embeddings)
-# Connection to query with Chroma indexing using a retriever
-retriever = docsearch.as_retriever(
-    search_type="similarity",
-    search_kwargs={'k':4}
-)
-
 dot_format = '''digraph G {
 
   // Start node
@@ -152,6 +139,24 @@ dot_format = '''digraph G {
 
 }
 '''
+
+st.title("Respectus decision tree generator")
+
+
+uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+
+# segmenting the document into segments
+text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+texts = text_splitter.split_documents(raw_doc)
+# Document Embedding with Chromadb
+
+docsearch = Chroma.from_documents(texts, embeddings)
+# Connection to query with Chroma indexing using a retriever
+retriever = docsearch.as_retriever(
+    search_type="similarity",
+    search_kwargs={'k':4}
+)
+
 few_shot_examples = [
 {"input":"Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, \
 entities or bodies in Iran or for use in Iran?",
@@ -177,21 +182,33 @@ few_shot_prompt,
     ("user", "{context}")
 ])
 
-# Langchain Expression Language to call our LLM using the prompt template above
-# RAG chain
-negotiate_chain = (
-    {"context": itemgetter("question") | retriever | format_docs,
-     "question": itemgetter("question")}
-    | negotiate_prompt
-    | llm
-    | StrOutputParser()
-    )
-answer = negotiate_chain.invoke({"question":"For what purpose goods and technology are necessary?"})
-import pydot
-dot_content = answer
-# Create a graph from DOT content
-graphs = pydot.graph_from_dot_data(dot_content)
-graph = graphs[0]
 
-# Save the graph to a PNG file
-graph.write_png('dot_graph_2.png')
+question = st.text_input(label='Type your question')
+submit=st.button("Generate results")
+if submit:
+    question = question
+    # Langchain Expression Language to call our LLM using the prompt template above
+    # RAG chain
+    negotiate_chain = (
+        {"context": itemgetter("question") | retriever | format_docs,
+        "question": itemgetter("question")}
+        | negotiate_prompt
+        | llm
+        | StrOutputParser()
+        )
+    answer = negotiate_chain.invoke({"question":"For what purpose goods and technology are necessary?"})
+    import pydot
+    dot_content = answer
+    # Create a graph from DOT content
+    graphs = pydot.graph_from_dot_data(dot_content)
+    graph = graphs[0]
+
+    # Save the graph to a PNG file
+    graph.write_png('dot_graph_2.png')
+    with open('dot_graph_2.png', "rb") as file:
+    btn = st.download_button(
+            label="Download image",
+            data=file,
+            file_name=image_name,
+            mime="image/png"
+            )

@@ -5,5 +5,3 @@ langchain_core
 unstructured[pdf]
 chromadb
 streamlit
-opencv-contrib-python
-sqlite3 >= 3.35.0

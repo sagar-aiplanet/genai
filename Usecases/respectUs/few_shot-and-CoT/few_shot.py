@@ -41,6 +41,9 @@ api_version = "a20bc67dbd7c47ed8c978bbcfdacf930"
 os.environ['AZURE_OPENAI_API_KEY'] = api_version
 os.environ["AZURE_OPENAI_ENDPOINT"] = deployment_name
 
+st.secrets['AZURE_OPENAI_API_KEY'] = api_version
+st.secrets["AZURE_OPENAI_ENDPOINT"] = deployment_name
+
 from langchain_openai import AzureChatOpenAI
 
 llm = AzureChatOpenAI(
@@ -58,6 +61,11 @@ import os
 
 os.environ["AZURE_OPENAI_API_KEY"] = AZURE_OPENAI_API_KEY
 os.environ["AZURE_OPENAI_ENDPOINT"] = EMBEDDING_ENDPOINT_URL
+
+st.secrets
+
+st.secrets["AZURE_OPENAI_API_KEY"] = AZURE_OPENAI_API_KEY
+st.secrets["AZURE_OPENAI_ENDPOINT"] = EMBEDDING_ENDPOINT_URL
 
 from langchain_openai import AzureOpenAIEmbeddings
 
@@ -177,7 +185,6 @@ def uploaded_files(uploaded_file):
             from langchain.document_loaders import PyPDFLoader
             loader = PyPDFLoader(file_path)
             pages = loader.load_and_split()
-            # loader = UnstructuredFileLoader(file_path).load()
             print(pages)
             # data = loader.load()
             return pages

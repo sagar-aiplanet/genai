@@ -175,6 +175,7 @@ def uploaded_files(uploaded_file):
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
             loader = UnstructuredFileLoader(file_path)
+            print(loader)
             data = loader.load()
             return data
 

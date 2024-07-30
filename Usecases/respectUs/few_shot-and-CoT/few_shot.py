@@ -245,19 +245,18 @@ if submit:
     # Create a graph from DOT content
     graphs= pydot.graph_from_dot_data(dot_content)
     graph = graphs[0]
-    nx_graph = nx.nx_pydot.from_pydot(graph)
-
-    # graph.draw('dot_graph_2.png')
     image_name='dot_graph_2.png'
+    graph.write_raw(image_name)
+    graph.write_png(image_name)
+    # nx_graph = nx.nx_pydot.from_pydot(graph)
 
-    # Convert to NetworkX graph
-    nx_graph = nx.nx_pydot.from_pydot(graph)
+    # # graph.draw('dot_graph_2.png')
+    # image_name='dot_graph_2.png'
 
-    # Draw the graph using NetworkX
-    output_path = 'dot_graph.png'
-    nx.drawing.nx_pydot.write_dot(nx_graph, image_name)
+    # # Convert to NetworkX graph
+    # nx_graph = nx.nx_pydot.from_pydot(graph)
 
-
+    # nx.drawing.nx_pydot.write_dot(nx_graph, image_name)
     with open('dot_graph_2.png', "rb") as file:
         btn = st.download_button(
                 label="Download image",

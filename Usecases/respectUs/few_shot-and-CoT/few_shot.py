@@ -17,7 +17,7 @@ import streamlit as st
 
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
-AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.AZURE_OPENAI_API_KEY
+AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
 
 api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
 deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL

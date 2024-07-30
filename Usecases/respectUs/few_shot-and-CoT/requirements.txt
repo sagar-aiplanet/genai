@@ -3,5 +3,5 @@ langchain
 langchain_community
 langchain_core
 unstructured[pdf]
-chromadb==0.5.3
+chromadb
 streamlit

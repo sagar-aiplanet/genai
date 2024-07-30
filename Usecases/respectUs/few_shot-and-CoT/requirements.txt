@@ -5,3 +5,4 @@ langchain_core
 unstructured[pdf]
 chromadb
 streamlit
+opencv-contrib-python

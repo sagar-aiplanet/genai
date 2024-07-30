@@ -242,11 +242,12 @@ if submit:
     import pydot
     dot_content = answer
     # Create a graph from DOT content
-    graphs = pydot.graph_from_dot_data(dot_content)
-    graph = graphs[0]
+    (graph,)= pydot.graph_from_dot_data(dot_content)
+    # graph = graphs[0]
+
     # Save the graph to a PNG file
-    # graph.write_png('dot_graph_2.png')
-    graph.draw('dot_graph_2.png')
+    graph.write_png('dot_graph_2.png')
+    # graph.draw('dot_graph_2.png')
     image_name='dot_graph_2.png'
     with open('dot_graph_2.png', "rb") as file:
         btn = st.download_button(

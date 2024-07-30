@@ -160,7 +160,7 @@ def uploaded_files(uploaded_file):
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
             print(file_path)
-            data = UnstructuredFileLoader("uploaded_files/CELEX_32023R1529_EN_TXT.pdf").load()
+            data = UnstructuredFileLoader("CELEX_32023R1529_EN_TXT.pdf").load()
             # raw_doc = loader.
             return data
 raw_doc = uploaded_files(uploaded_file)

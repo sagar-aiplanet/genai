@@ -159,19 +159,6 @@ def uploaded_files(uploaded_file):
             loader = UnstructuredFileLoader(file_path)
             raw_doc = loader.load()
             return data
-raw_doc = uploaded_files(uploaded_file)
-
-# segmenting the document into segments
-text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-texts = text_splitter.split_documents(raw_doc)
-# Document Embedding with Chromadb
-
-docsearch = Chroma.from_documents(texts, embeddings)
-# Connection to query with Chroma indexing using a retriever
-retriever = docsearch.as_retriever(
-    search_type="similarity",
-    search_kwargs={'k':4}
-)
 
 few_shot_examples = [
 {"input":"Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, \
@@ -203,6 +190,21 @@ question = st.text_input(label='Type your question')
 submit=st.button("Generate results")
 if submit:
     question = question
+    raw_doc = uploaded_files(uploaded_file)
+
+    # segmenting the document into segments
+    text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+    texts = text_splitter.split_documents(raw_doc)
+    # Document Embedding with Chromadb
+
+    docsearch = Chroma.from_documents(texts, embeddings)
+    # Connection to query with Chroma indexing using a retriever
+    retriever = docsearch.as_retriever(
+        search_type="similarity",
+        search_kwargs={'k':4}
+    )
+
+
     # Langchain Expression Language to call our LLM using the prompt template above
     # RAG chain
     negotiate_chain = (

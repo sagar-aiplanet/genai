@@ -52,7 +52,7 @@ embeddings = AzureOpenAIEmbeddings(
 )
 
 
-dot_format = '''digraph G {
+dot_format = """ digraph G {
 
   // Start node
   start [shape=ellipse, label="Start"];
@@ -145,7 +145,7 @@ dot_format = '''digraph G {
   non_military_end_user -> prohibited [label="No"];
 
 }
-'''
+"""
 
 st.title("Respectus decision tree generator")
 

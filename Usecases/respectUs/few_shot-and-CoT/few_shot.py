@@ -142,9 +142,7 @@ dot_format = """ digraph G {
                 // Other endings
                 operation_date_question -> not_restricted [label="Yes"];
                 non_military_use -> prohibited [label="No"];
-                non_military_end_user -> prohibited [label="No"];
-
-            } """
+                non_military_end_user -> prohibited [label="No"]; } """
 
 st.title("Respectus decision tree generator")
 

@@ -14,15 +14,15 @@ from langchain.prompts import (
 )
 from operator import itemgetter
 import streamlit as st
-import ssl
+# import ssl
 
-ssl._create_default_https_context = ssl._create_stdlib_context
+# ssl._create_default_https_context = ssl._create_stdlib_context
 # import nltk
 
 
-import os
-cwd = os.getcwd()
-print(cwd)
+# import os
+# cwd = os.getcwd()
+# print(cwd)
 # # nltk.download('punkt')
 # nltk.download('popular')
 

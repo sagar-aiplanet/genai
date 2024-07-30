@@ -14,6 +14,7 @@ from langchain.prompts import (
 )
 from operator import itemgetter
 import streamlit as st
+from io import BytesIO
 import graphviz
 # import ssl
 

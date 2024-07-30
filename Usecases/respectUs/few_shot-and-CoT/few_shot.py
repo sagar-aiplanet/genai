@@ -148,7 +148,30 @@ st.title("Respectus decision tree generator")
 
 
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+def uploaded_files(uploaded_file):
+    if uploaded_file is not None:
+        save_path = "./uploaded_files"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        file_path = os.path.join(save_path, uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+            loader = UnstructuredFileLoader(file_path)
+            raw_doc = loader.load()
+            return data
+raw_doc = uploaded_files(uploaded_file)
 
+# segmenting the document into segments
+text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+texts = text_splitter.split_documents(raw_doc)
+# Document Embedding with Chromadb
+
+docsearch = Chroma.from_documents(texts, embeddings)
+# Connection to query with Chroma indexing using a retriever
+retriever = docsearch.as_retriever(
+    search_type="similarity",
+    search_kwargs={'k':4}
+)
 
 few_shot_examples = [
 {"input":"Give me the rule and exceptions for the regulation of export of goods and technology which might contribute to Iran’s capability to manufacture Unmanned Aerial Vehicles (UAVs) to natural or legal persons, \
@@ -180,19 +203,6 @@ question = st.text_input(label='Type your question')
 submit=st.button("Generate results")
 if submit:
     question = question
-
-    # segmenting the document into segments
-    text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-    texts = text_splitter.split_documents(raw_doc)
-    # Document Embedding with Chromadb
-    docsearch = Chroma.from_documents(texts, embeddings)
-    # Connection to query with Chroma indexing using a retriever
-    retriever = docsearch.as_retriever(
-        search_type="similarity",
-        search_kwargs={'k':4}
-    )
-
-
     # Langchain Expression Language to call our LLM using the prompt template above
     # RAG chain
     negotiate_chain = (

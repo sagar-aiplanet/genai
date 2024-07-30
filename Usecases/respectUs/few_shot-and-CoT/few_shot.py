@@ -17,7 +17,7 @@ import streamlit as st
 import ssl
 
 ssl._create_default_https_context = ssl._create_stdlib_context
-import nltk
+# import nltk
 
 
 import os

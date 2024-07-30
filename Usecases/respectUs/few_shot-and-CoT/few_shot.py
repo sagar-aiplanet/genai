@@ -175,7 +175,8 @@ def uploaded_files(uploaded_file):
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
             from langchain.document_loaders import PyPDFLoader
-            pages = loader.load_and_split(file_path)
+            loader = PyPDFLoader(file_path)
+            pages = loader.load_and_split()
             # loader = UnstructuredFileLoader(file_path).load()
             print(pages)
             # data = loader.load()

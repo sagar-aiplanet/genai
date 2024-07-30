@@ -13,8 +13,13 @@ from langchain.prompts import (
     FewShotChatMessagePromptTemplate,
 )
 from operator import itemgetter
-OPENAI_API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
-AZURE_OPENAI_DEPLOYMENT = "https://gpt-res.openai.azure.com/"
+
+
+AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
+AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.AZURE_OPENAI_API_KEY
+
+api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
+deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
 
 os.environ['AZURE_OPENAI_API_KEY'] = OPENAI_API_KEY
 os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_OPENAI_DEPLOYMENT
@@ -29,14 +34,13 @@ llm = AzureChatOpenAI(
     timeout=None,
     max_retries=2,
 )
+
+
 import os
 
 
-azure_openai_key = "d6d9522a01c74836907af2f3fd72ff85"
-embeddings_endpoint = "https://marketplace.openai.azure.com/"
-
-os.environ["AZURE_OPENAI_API_KEY"] = azure_openai_key
-os.environ["AZURE_OPENAI_ENDPOINT"] = embeddings_endpoint
+os.environ["AZURE_OPENAI_API_KEY"] = AZURE_OPENAI_API_KEY
+os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_OPENAI_ENDPOINT
 
 from langchain_openai import AzureOpenAIEmbeddings
 
@@ -207,6 +211,7 @@ if submit:
     graph.write_png('dot_graph_2.png')
     with open('dot_graph_2.png', "rb") as file:
         
+
         btn = st.download_button(
                 label="Download image",
                 data=file,

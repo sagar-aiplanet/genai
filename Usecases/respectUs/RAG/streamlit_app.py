@@ -142,7 +142,7 @@ if submit:
     #             mime="image/png"
     #             )
     with st.chat_message(""):
-        st.write(decision_tree_json)
+        st.image(image_name, caption="tree_from_json")
 
 
 # {

@@ -238,7 +238,6 @@ if submit:
         | StrOutputParser()
         )
     answer = negotiate_chain.invoke({"question":question})
-    print(answer)
     import pydot
     dot_content = answer
     # Create a graph from DOT content

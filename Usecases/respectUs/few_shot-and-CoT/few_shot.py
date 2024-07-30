@@ -1,6 +1,5 @@
 
 import os
-from google.colab import userdata
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain.embeddings.openai import OpenAIEmbeddings

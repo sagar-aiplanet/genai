@@ -1,0 +1,7 @@
+langchain-openai
+langchain
+langchain_community
+langchain_core
+unstructured
+unstructured[pdf]
+Chromadb

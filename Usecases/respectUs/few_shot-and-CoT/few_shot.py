@@ -206,9 +206,9 @@ if submit:
     # Save the graph to a PNG file
     graph.write_png('dot_graph_2.png')
     with open('dot_graph_2.png', "rb") as file:
-    btn = st.download_button(
-            label="Download image",
-            data=file,
-            file_name=image_name,
-            mime="image/png"
-            )
+        btn = st.download_button(
+                label="Download image",
+                data=file,
+                file_name=image_name,
+                mime="image/png"
+                )

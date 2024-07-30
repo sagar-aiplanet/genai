@@ -15,9 +15,9 @@ dotenv.load_dotenv()
 endpoint_url = st.secrets.azure_embeddings_credentials.BASE_URL
 azure_key = st.secrets.azure_embeddings_credentials.AZURE_KEY
 
+
 os.environ['AZURE_OPENAI_API_KEY'] = azure_key
 os.environ["AZURE_OPENAI_ENDPOINT"] =endpoint_url
-
 
 
 NEO4J_URI = st.secrets.azure_embeddings_credentials.NEO4J_URI
@@ -25,13 +25,13 @@ NEO4J_USERNAME = st.secrets.azure_embeddings_credentials.NEO4J_USERNAME
 NEO4J_PASSWORD = st.secrets.azure_embeddings_credentials.NEO4J_PASSWORD
 NEO4J_DATABASE = st.secrets.azure_embeddings_credentials.NEO4J_DATABASE
 
-print(NEO4J_URI,NEO4J_USERNAME)
+# print(NEO4J_URI,NEO4J_USERNAME)
 
 
-os.environ['AZURE_OPENAI_API_KEY'] = NEO4J_URI
-os.environ["AZURE_OPENAI_ENDPOINT"] = NEO4J_USERNAME
-os.environ['AZURE_OPENAI_API_KEY'] = NEO4J_PASSWORD
-os.environ["AZURE_OPENAI_ENDPOINT"] =NEO4J_DATABASE
+# os.environ['AZURE_OPENAI_API_KEY'] = NEO4J_URI
+# os.environ["AZURE_OPENAI_ENDPOINT"] = NEO4J_USERNAME
+# os.environ['AZURE_OPENAI_API_KEY'] = NEO4J_PASSWORD
+# os.environ["AZURE_OPENAI_ENDPOINT"] =NEO4J_DATABASE
 
 
 from langchain_openai import AzureChatOpenAI

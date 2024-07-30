@@ -240,7 +240,7 @@ if submit:
     answer = negotiate_chain.invoke({"question":question})
     import pydot
     dot_content = answer
-    import networkx as nx
+    # import networkx as nx
 
     # Create a graph from DOT content
 

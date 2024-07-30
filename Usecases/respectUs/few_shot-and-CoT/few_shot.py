@@ -13,6 +13,7 @@ from langchain.prompts import (
     FewShotChatMessagePromptTemplate,
 )
 from operator import itemgetter
+import streamlit as st
 
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
@@ -21,8 +22,8 @@ AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.AZURE_OPENAI_API_
 api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
 deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
 
-os.environ['AZURE_OPENAI_API_KEY'] = OPENAI_API_KEY
-os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_OPENAI_DEPLOYMENT
+os.environ['AZURE_OPENAI_API_KEY'] = api_version
+os.environ["AZURE_OPENAI_ENDPOINT"] = deployment_name
 
 from langchain_openai import AzureChatOpenAI
 
@@ -49,6 +50,8 @@ embeddings = AzureOpenAIEmbeddings(
     azure_deployment="text-embed-marketplace",
     openai_api_version="2024-02-01",
 )
+
+
 dot_format = '''digraph G {
 
   // Start node

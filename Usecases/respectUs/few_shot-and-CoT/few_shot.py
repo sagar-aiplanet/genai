@@ -16,17 +16,6 @@ from operator import itemgetter
 import streamlit as st
 from io import BytesIO
 import graphviz
-# import ssl
-
-# ssl._create_default_https_context = ssl._create_stdlib_context
-# import nltk
-
-
-# import os
-# cwd = os.getcwd()
-# print(cwd)
-# # nltk.download('punkt')
-# nltk.download('popular')
 
 # AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
 # AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
@@ -249,23 +238,39 @@ if submit:
     graph = graphviz.Source(dot_content)
 
     # Render the graph to PNG and display in Streamlit
-    # st.write("Graph Visualization")
-    # st.graphviz_chart(dot_content)
+    st.write(" Visualization")
+    st.graphviz_chart(dot_content)
     # Render the graph to a BytesIO object
-    png_image = BytesIO()
-    graph.format = 'png'
-    graph.render(filename='graph', format='png', cleanup=False, directory=None)
-    with open('graph.png', 'rb') as f:
-        png_image.write(f.read())
+    # Render the graph to a PNG image in memory
+    img_bytes = graph.pipe(format='png')
 
-    # Display the graph in Streamlit
+    # Display the image in Streamlit
     st.write("Graph Visualization")
-    st.image(png_image, use_column_width=True)
+    st.image(img_bytes, use_column_width=True)
 
-    # Provide a download button for the PNG file
+    # Provide a download button for the PNG image
     st.download_button(
         label="Download Graph as PNG",
-        data=png_image.getvalue(),
+        data=img_bytes,
         file_name="graph.png",
         mime="image/png"
     )
+
+
+    # png_image = BytesIO()
+    # graph.format = 'png'
+    # graph.render(filename='graph', format='png', cleanup=False, directory=None)
+    # with open('graph.png', 'rb') as f:
+    #     png_image.write(f.read())
+
+    # # Display the graph in Streamlit
+    # st.write("Graph Visualization")
+    # st.image(png_image, use_column_width=True)
+
+    # # Provide a download button for the PNG file
+    # st.download_button(
+    #     label="Download Graph as PNG",
+    #     data=png_image.getvalue(),
+    #     file_name="graph.png",
+    #     mime="image/png"
+    # )

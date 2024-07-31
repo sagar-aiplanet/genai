@@ -20,8 +20,8 @@ from io import BytesIO
 import pydot
 import os
 
-# os.system('apt-get update')
-# os.system('apt-get install -y graphviz')
+os.system('apt-get update')
+os.system('apt-get install -y graphviz')
 
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
@@ -255,6 +255,7 @@ if submit:
         file_name="diagram.png",
         mime="image/png"
     )
+
     # graph = graphviz.Source(dot_content)
     # # st.graphviz_chart(dot_content,use_container_width=True)
     # # Write the dot content to a .dot file

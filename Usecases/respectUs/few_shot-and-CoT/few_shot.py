@@ -200,35 +200,36 @@ with st.sidebar:
         uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
         question = st.text_input(label='Type your question')
         submit=st.button("Generate results")
-        question = question
-        raw_doc = uploaded_files(uploaded_file)
-        # segmenting the document into segments
-        text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-        texts = text_splitter.split_documents(raw_doc)
-        # Document Embedding with Chromadb
+        if submit:
+            question = question
+            raw_doc = uploaded_files(uploaded_file)
+            # segmenting the document into segments
+            text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+            texts = text_splitter.split_documents(raw_doc)
+            # Document Embedding with Chromadb
 
-        docsearch = Chroma.from_documents(texts, embeddings)
-        # Connection to query with Chroma indexing using a retriever
-        retriever = docsearch.as_retriever(
-            search_type="similarity",
-            search_kwargs={'k':4}
-        )
-
-        def format_docs(docs):
-            return "\n\n".join(doc.page_content for doc in docs)
-        # Langchain Expression Language to call our LLM using the prompt template above
-        # RAG chain
-        negotiate_chain = (
-            {"context": itemgetter("question") | retriever | format_docs,
-            "question": itemgetter("question")}
-            | negotiate_prompt
-            | llm
-            | StrOutputParser()
+            docsearch = Chroma.from_documents(texts, embeddings)
+            # Connection to query with Chroma indexing using a retriever
+            retriever = docsearch.as_retriever(
+                search_type="similarity",
+                search_kwargs={'k':4}
             )
-        answer = negotiate_chain.invoke({"question":question})
-        dot_content = answer
-        graph = graphviz.Source(dot_content)
-        with st.container():
-            st.write("RespectUs-Export-Visualization")
-            st.graphviz_chart(dot_content)
-    
+
+            def format_docs(docs):
+                return "\n\n".join(doc.page_content for doc in docs)
+            # Langchain Expression Language to call our LLM using the prompt template above
+            # RAG chain
+            negotiate_chain = (
+                {"context": itemgetter("question") | retriever | format_docs,
+                "question": itemgetter("question")}
+                | negotiate_prompt
+                | llm
+                | StrOutputParser()
+                )
+            answer = negotiate_chain.invoke({"question":question})
+            dot_content = answer
+            graph = graphviz.Source(dot_content)
+            with st.container():
+                st.write("RespectUs-Export-Visualization")
+                st.graphviz_chart(dot_content)
+        

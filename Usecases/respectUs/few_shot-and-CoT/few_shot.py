@@ -236,33 +236,33 @@ with st.container():
             )
         answer = negotiate_chain.invoke({"question":question})
         dot_content = answer
-
+        graph = graphviz.Source(dot_content)
+        st.graphviz_chart(dot_content,use_container_width=True)
         # Create a diagram from DOT content using pydot
-        diagrams = pydot.graph_from_dot_data(dot_content)
-        diagram = diagrams[0]  # Retrieve the first diagram from the list
+        # diagrams = pydot.graph_from_dot_data(dot_content)
+        # diagram = diagrams[0]  # Retrieve the first diagram from the list
 
-        # Render the diagram to a PNG file
-        output_path = "/tmp/example_diagram.png"
-        diagram.write_png(output_path)
+        # # Render the diagram to a PNG file
+        # output_path = "/tmp/example_diagram.png"
+        # diagram.write_png(output_path)
 
-        # Read the PNG file
-        with open(output_path, 'rb') as f:
-            img_bytes = f.read()
+        # # Read the PNG file
+        # with open(output_path, 'rb') as f:
+        #     img_bytes = f.read()
 
-        # Display the image in Streamlit
-        st.write("Diagram Visualization")
-        st.image(img_bytes, use_column_width=True)
+        # # Display the image in Streamlit
+        # st.write("Diagram Visualization")
+        # st.image(img_bytes, use_column_width=True)
 
-        # Provide a download button for the PNG image
-        st.download_button(
-            label="Download Diagram as PNG",
-            data=img_bytes,
-            file_name="diagram.png",
-            mime="image/png"
-        )
+        # # Provide a download button for the PNG image
+        # st.download_button(
+        #     label="Download Diagram as PNG",
+        #     data=img_bytes,
+        #     file_name="diagram.png",
+        #     mime="image/png"
+        # )
 
-        # graph = graphviz.Source(dot_content)
-        # # st.graphviz_chart(dot_content,use_container_width=True)
+  
         # # Write the dot content to a .dot file
         # # Render the graph to a PNG file
         # output_path = "/tmp/example_graph.png"

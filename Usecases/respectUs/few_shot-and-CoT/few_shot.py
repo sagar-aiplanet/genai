@@ -207,7 +207,6 @@ with st.sidebar:
         text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
         texts = text_splitter.split_documents(raw_doc)
         # Document Embedding with Chromadb
-
         docsearch = Chroma.from_documents(texts, embeddings)
         # Connection to query with Chroma indexing using a retriever
         retriever = docsearch.as_retriever(
@@ -228,8 +227,8 @@ with st.sidebar:
             )
         answer = negotiate_chain.invoke({"question":question})
         dot_content = answer
-        graph = graphviz.Source(dot_content)
+        return graph = graphviz.Source(dot_content)
 with st.container():
-    st.write("RespectUs-Export-Visualization")
-    st.graphviz_chart(dot_content)
+    st.write(raw_doc)
+    # st.graphviz_chart(dot_content)
 

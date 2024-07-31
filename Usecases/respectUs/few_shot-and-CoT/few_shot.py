@@ -200,11 +200,12 @@ few_shot_prompt,
 ])
 
 
-question = st.text_input(label='Type your question')
+
 
 with st.sidebar:
     with st.echo():
         uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+        question = st.text_input(label='Type your question')
         submit=st.button("Generate results")
         question = question
         raw_doc = uploaded_files(uploaded_file)

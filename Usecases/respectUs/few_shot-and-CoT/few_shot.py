@@ -1,3 +1,9 @@
+import streamlit as st
+import numpy as np 
+
+
+st.write("This is outside the container")
+
 import sqlite3
 import os
 from langchain_openai import ChatOpenAI
@@ -151,7 +157,7 @@ dot_format = """ digraph G {
 st.title("Respectus Export decision flow Graph")
 
 
-uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+
 
 
 def uploaded_files(uploaded_file):
@@ -195,46 +201,40 @@ few_shot_prompt,
 
 
 question = st.text_input(label='Type your question')
-submit=st.button("Generate results")
-if submit:
-    question = question
-    raw_doc = uploaded_files(uploaded_file)
-    # segmenting the document into segments
-    text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-    texts = text_splitter.split_documents(raw_doc)
-    # Document Embedding with Chromadb
 
-    docsearch = Chroma.from_documents(texts, embeddings)
-    # Connection to query with Chroma indexing using a retriever
-    retriever = docsearch.as_retriever(
-        search_type="similarity",
-        search_kwargs={'k':4}
-    )
+with st.sidebar:
+    with st.echo():
+        uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+        submit=st.button("Generate results")
+        question = question
+        raw_doc = uploaded_files(uploaded_file)
+        # segmenting the document into segments
+        text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+        texts = text_splitter.split_documents(raw_doc)
+        # Document Embedding with Chromadb
 
-    def format_docs(docs):
-         return "\n\n".join(doc.page_content for doc in docs)
-    # Langchain Expression Language to call our LLM using the prompt template above
-    # RAG chain
-    negotiate_chain = (
-        {"context": itemgetter("question") | retriever | format_docs,
-        "question": itemgetter("question")}
-        | negotiate_prompt
-        | llm
-        | StrOutputParser()
+        docsearch = Chroma.from_documents(texts, embeddings)
+        # Connection to query with Chroma indexing using a retriever
+        retriever = docsearch.as_retriever(
+            search_type="similarity",
+            search_kwargs={'k':4}
         )
-    answer = negotiate_chain.invoke({"question":question})
-    dot_content = answer
-    graph = graphviz.Source(dot_content)
-    st.write("RespectUs-Export-Visualization")
-    st.graphviz_chart(dot_content,use_container_width=False)
-    # img_bytes = graph.pipe(format='png')
-    # st.write("Graph Visualization")
-    # st.image(img_bytes, use_column_width=True)
 
-    # # Provide a download button for the PNG image
-    # st.download_button(
-    #     label="Download Graph as PNG",
-    #     data=img_bytes,
-    #     file_name="graph.png",
-    #     mime="image/png"
-    # )
+        def format_docs(docs):
+            return "\n\n".join(doc.page_content for doc in docs)
+        # Langchain Expression Language to call our LLM using the prompt template above
+        # RAG chain
+        negotiate_chain = (
+            {"context": itemgetter("question") | retriever | format_docs,
+            "question": itemgetter("question")}
+            | negotiate_prompt
+            | llm
+            | StrOutputParser()
+            )
+        answer = negotiate_chain.invoke({"question":question})
+        dot_content = answer
+        graph = graphviz.Source(dot_content)
+        with st.container():
+            st.write("RespectUs-Export-Visualization")
+            st.graphviz_chart(dot_content)
+    

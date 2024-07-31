@@ -62,6 +62,11 @@ embeddings = AzureOpenAIEmbeddings(
     openai_api_version="2024-02-01",
 )
 
+color="lightgreen"
+color="lightorange"
+color="navyblue"
+color="red"
+
 
 dot_format = """ digraph G {
 
@@ -70,7 +75,7 @@ dot_format = """ digraph G {
 
                 // First question
                 start -> product_question;
-                product_question [shape=Mdiamond, label="What is your product?"];
+                product_question [shape=Mdiamond, label="What is your product?",color="lightgreen"];
 
                 // Leads to another stream
                 product_question -> leads_another_stream [label="Not related"];
@@ -78,11 +83,11 @@ dot_format = """ digraph G {
 
                 // Second question
                 product_question -> uav_question [label="Related"];
-                uav_question [shape=Mdiamond, label="Goods contribute to Iran’s UAVs?"];
+                uav_question [shape=Mdiamond, label="Goods contribute to Iran’s UAVs?",color="lightgreen"];
 
                 // Third question
                 uav_question -> classification_question [label="Yes"];
-                classification_question [shape=Mdiamond, label="How is your product classified?"];
+                classification_question [shape=Mdiamond, label="How is your product classified?", color="lightgreen"];
 
                 // Annex I
                 classification_question -> annex1 [label="Annex I"];
@@ -97,63 +102,63 @@ dot_format = """ digraph G {
 
                 // Fourth question
                 iran_question -> export_iran [label="Yes"];
-                iran_question [shape=Mdiamond, label="Exporting to Iran?"];
+                iran_question [shape=Mdiamond, label="Exporting to Iran?",color="lightgreen"];
 
                 // Fifth question
                 iran_question -> export_other_country [label="No"];
-                export_other_country [shape=Mdiamond, label="Exporting to another country for use in Iran?"];
+                export_other_country [shape=Mdiamond, label="Exporting to another country for use in Iran?",color="lightgreen"];
 
                 // Not Restricted
                 export_other_country -> not_restricted [label="No"];
-                not_restricted [shape=box, label="Not Restricted EU Regulation 2023/1529 of 20 July 2023 Article-2"];
+                not_restricted [shape=box, label="Not Restricted EU Regulation 2023/1529 of 20 July 2023 Article-2",color="lightorange"];
 
                 // Sixth question
                 export_iran -> contract_question [label="Yes"];
-                contract_question [shape=Mdiamond, label="Obligations from contract before 26 July 2023?"];
+                contract_question [shape=Mdiamond, label="Obligations from contract before 26 July 2023?",color="lightgreen"];
 
                 // Seventh question
                 contract_question -> operation_date_question [label="Yes"];
-                operation_date_question [shape=Mdiamond, label="Export operated before 27 October 2023?"];
+                operation_date_question [shape=Mdiamond, label="Export operated before 27 October 2023?",color="lightgreen"];
 
                 // Eighth question
                 contract_question -> non_military_use [label="No"];
-                non_military_use [shape=Mdiamond, label="Export for non-military use?"];
+                non_military_use [shape=Mdiamond, label="Export for non-military use?",color="lightgreen"];
 
                 // Ninth question
                 non_military_use -> non_military_end_user [label="Yes"];
-                non_military_end_user [shape=Mdiamond, label="Export for non-military end-user?"];
+                non_military_end_user [shape=Mdiamond, label="Export for non-military end-user?",color="lightgreen"];
 
                 // Tenth question
                 non_military_end_user -> purpose_question [label="Yes"];
-                purpose_question [shape=Mdiamond, label="Purpose of goods or technology?"];
+                purpose_question [shape=Mdiamond, label="Purpose of goods or technology?",color="lightgreen"];
 
                 // Specific purposes
                 purpose_question -> medical_purpose [label="Medical purpose"];
-                medical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                medical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 purpose_question -> pharmaceutical_purpose [label="Pharmaceutical purposes"];
-                pharmaceutical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                pharmaceutical_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 purpose_question -> humanitarian_purpose [label="Humanitarian purpose"];
-                humanitarian_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                humanitarian_purpose [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 purpose_question -> health_emergency [label="Health emergency"];
-                health_emergency [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                health_emergency [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 purpose_question -> urgent_prevention [label="Urgent prevention or mitigation"];
-                urgent_prevention [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                urgent_prevention [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 purpose_question -> natural_disasters [label="Response to natural disasters"];
-                natural_disasters [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2"];
+                natural_disasters [shape=box, label="Subject to an Authorization EU Regulation 2023/1529 of 20 July 2023 Article 2",color="lightorange"];
 
                 // Prohibited
-                purpose_question -> prohibited [label="Any other purpose"];
-                prohibited [shape=box, label="Prohibited EU Regulation 2023"];
+                purpose_question -> prohibited [label="Any other purpose",color="red"];
+                prohibited [shape=box, label="Prohibited EU Regulation 2023",color="red"];
 
                 // Other endings
-                operation_date_question -> not_restricted [label="Yes"];
-                non_military_use -> prohibited [label="No"];
-                non_military_end_user -> prohibited [label="No"]; } """
+                operation_date_question -> not_restricted [label="Yes",color="navyblue"];
+                non_military_use -> prohibited [label="No",color="red"];
+                non_military_end_user -> prohibited [label="No", color="red"]; } """
 
 st.title("Respectus Export decision flow Graph")
 

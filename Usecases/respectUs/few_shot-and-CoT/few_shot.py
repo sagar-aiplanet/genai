@@ -18,6 +18,10 @@ import streamlit as st
 from io import BytesIO
 import graphviz
 import pydot
+import os
+
+os.system('apt-get update')
+os.system('apt-get install -y graphviz')
 
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL

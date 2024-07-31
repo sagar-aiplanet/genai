@@ -226,7 +226,7 @@ if submit:
     dot_content = answer
     graph = graphviz.Source(dot_content)
     st.write("RespectUs-Export-Visualization")
-    st.graphviz_chart(dot_content)
+    st.graphviz_chart(dot_content,use_container_width=False)
     # img_bytes = graph.pipe(format='png')
     # st.write("Graph Visualization")
     # st.image(img_bytes, use_column_width=True)

@@ -17,17 +17,12 @@ import streamlit as st
 from io import BytesIO
 import graphviz
 
-# AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
-# AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
+AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
+AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
 
-# api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
-# deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
+api_version = st.secrets.azure_embeddings_credentials.AZURE_API_KEY
+deployment_name = st.secrets.azure_embeddings_credentials.AZURE_BASE_URL
 
-EMBEDDING_ENDPOINT_URL = "https://marketplace.openai.azure.com/"
-AZURE_OPENAI_API_KEY = "d6d9522a01c74836907af2f3fd72ff85"
-
-deployment_name = "https://gpt-res.openai.azure.com/"
-api_version = "a20bc67dbd7c47ed8c978bbcfdacf930"
 
 os.environ['AZURE_OPENAI_API_KEY'] = api_version
 os.environ["AZURE_OPENAI_ENDPOINT"] = deployment_name
@@ -49,7 +44,7 @@ import os
 
 
 os.environ["AZURE_OPENAI_API_KEY"] = AZURE_OPENAI_API_KEY
-os.environ["AZURE_OPENAI_ENDPOINT"] = EMBEDDING_ENDPOINT_URL
+os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_OPENAI_ENDPOINT
 
 
 from langchain_openai import AzureOpenAIEmbeddings

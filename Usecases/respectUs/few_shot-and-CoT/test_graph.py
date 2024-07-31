@@ -18,4 +18,4 @@ if submit:
     graph = graphviz.Source(dot_content)
 
     st.write("Graph Visualization")
-    st.graphviz_chart(dot_content)
+    st.graphviz_chart(dot_content, use_container_width=False)

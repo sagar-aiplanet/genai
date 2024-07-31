@@ -16,12 +16,12 @@ from langchain.prompts import (
 from operator import itemgetter
 import streamlit as st
 from io import BytesIO
-import graphviz
+# import graphviz
 import pydot
 import os
 
-os.system('apt-get update')
-os.system('apt-get install -y graphviz')
+# os.system('apt-get update')
+# os.system('apt-get install -y graphviz')
 
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
@@ -231,25 +231,49 @@ if submit:
         )
     answer = negotiate_chain.invoke({"question":question})
     dot_content = answer
-    graph = graphviz.Source(dot_content)
-    # st.graphviz_chart(dot_content,use_container_width=True)
-    # Write the dot content to a .dot file
-    # Render the graph to a PNG file
-    output_path = "/tmp/example_graph.png"
-    graph.render(filename=output_path, format='png', cleanup=False)
+
+    # Create a diagram from DOT content using pydot
+    diagrams = pydot.graph_from_dot_data(dot_content)
+    diagram = diagrams[0]  # Retrieve the first diagram from the list
+
+    # Render the diagram to a PNG file
+    output_path = "/tmp/example_diagram.png"
+    diagram.write_png(output_path)
 
     # Read the PNG file
-    with open(f'{output_path}.png', 'rb') as f:
+    with open(output_path, 'rb') as f:
         img_bytes = f.read()
 
     # Display the image in Streamlit
-    st.write("Graph Visualization")
+    st.write("Diagram Visualization")
     st.image(img_bytes, use_column_width=True)
 
     # Provide a download button for the PNG image
     st.download_button(
-        label="Download Graph as PNG",
+        label="Download Diagram as PNG",
         data=img_bytes,
-        file_name="graph.png",
+        file_name="diagram.png",
         mime="image/png"
     )
+    # graph = graphviz.Source(dot_content)
+    # # st.graphviz_chart(dot_content,use_container_width=True)
+    # # Write the dot content to a .dot file
+    # # Render the graph to a PNG file
+    # output_path = "/tmp/example_graph.png"
+    # graph.render(filename=output_path, format='png', cleanup=False)
+
+    # # Read the PNG file
+    # with open(f'{output_path}.png', 'rb') as f:
+    #     img_bytes = f.read()
+
+    # # Display the image in Streamlit
+    # st.write("Graph Visualization")
+    # st.image(img_bytes, use_column_width=True)
+
+    # # Provide a download button for the PNG image
+    # st.download_button(
+    #     label="Download Graph as PNG",
+    #     data=img_bytes,
+    #     file_name="graph.png",
+    #     mime="image/png"
+    # )

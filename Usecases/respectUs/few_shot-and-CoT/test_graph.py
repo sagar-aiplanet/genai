@@ -12,26 +12,27 @@ digraph G {
   end [shape=ellipse, label="End"];
 }
 """
+submit=st.button("Generate results")
+if submit:
+    # Create a Graphviz source object
+    graph = graphviz.Source(dot_content)
 
-# Create a Graphviz source object
-graph = graphviz.Source(dot_content)
-
-# Render the graph to a PNG file and display it in Streamlit
-try:
-    graph.render(filename='graph', format='png', cleanup=True)
-    img_bytes = open('graph.png', 'rb').read()
-    
-    # Display the image in Streamlit
-    st.write("Graph Visualization")
-    st.image(img_bytes, use_column_width=True)
-    
-    # Provide a download button for the PNG image
-    st.download_button(
-        label="Download Graph as PNG",
-        data=img_bytes,
-        file_name="graph.png",
-        mime="image/png"
-    )
-except Exception as e:
-    st.error(f"An error occurred: {e}")
-    st.stop()
+    # Render the graph to a PNG file and display it in Streamlit
+    try:
+        graph.render(filename='graph', format='png', cleanup=True)
+        img_bytes = open('graph.png', 'rb').read()
+        
+        # Display the image in Streamlit
+        st.write("Graph Visualization")
+        st.image(img_bytes, use_column_width=True)
+        
+        # Provide a download button for the PNG image
+        st.download_button(
+            label="Download Graph as PNG",
+            data=img_bytes,
+            file_name="graph.png",
+            mime="image/png"
+        )
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        st.stop()

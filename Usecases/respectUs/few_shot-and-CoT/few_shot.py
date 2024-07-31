@@ -231,17 +231,16 @@ if submit:
         )
     answer = negotiate_chain.invoke({"question":question})
     dot_content = answer
-    # graph = graphviz.Source(dot_content)
+    graph = graphviz.Source(dot_content)
     # st.graphviz_chart(dot_content,use_container_width=True)
     # Write the dot content to a .dot file
-    with open("dot_content.dot", "w") as f:
-        f.write(dot_content)
+    # Render the graph to a PNG file
+    output_path = "/tmp/example_graph.png"
+    graph.render(filename=output_path, format='png', cleanup=False)
 
-    # Read the .dot file
-    (dot_graph,) = pydot.graph_from_dot_file("dot_content.dot")
-
-    # Render the graph to a PNG image in memory
-    img_bytes = dot_graph.create_png()
+    # Read the PNG file
+    with open(f'{output_path}.png', 'rb') as f:
+        img_bytes = f.read()
 
     # Display the image in Streamlit
     st.write("Graph Visualization")

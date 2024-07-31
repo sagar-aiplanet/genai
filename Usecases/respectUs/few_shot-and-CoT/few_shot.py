@@ -229,7 +229,7 @@ with st.sidebar:
         answer = negotiate_chain.invoke({"question":question})
         dot_content = answer
         graph = graphviz.Source(dot_content)
-        with st.container():
-            st.write("RespectUs-Export-Visualization")
-            st.graphviz_chart(dot_content)
-    
+with st.container():
+    st.write("RespectUs-Export-Visualization")
+    st.graphviz_chart(dot_content)
+

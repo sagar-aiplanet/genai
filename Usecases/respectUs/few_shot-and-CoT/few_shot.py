@@ -238,6 +238,26 @@ with st.container():
         dot_content = answer
         graph = graphviz.Source(dot_content)
         st.graphviz_chart(dot_content,use_container_width=True)
+        
+        # Write the DOT content to a file
+        dot_filename = "flowchart.dot"
+        with open(dot_filename, "w") as file:
+            file.write(dot_content)
+
+        # Convert DOT file to PNG using Graphviz command line tool
+        def convert_dot_to_png(dot_file, output_file):
+            try:
+                subprocess.run(['dot', '-Tpng', dot_file, '-o', output_file], check=True)
+                print(f"Successfully converted {dot_file} to {output_file}")
+            except subprocess.CalledProcessError as e:
+                print(f"An error occurred: {e}")
+
+        # Call the function to create the PNG image
+        output_image_file = "flowchart.png"
+        convert_dot_to_png(dot_filename, output_image_file)
+
+
+
         # Create a diagram from DOT content using pydot
         # diagrams = pydot.graph_from_dot_data(dot_content)
         # diagram = diagrams[0]  # Retrieve the first diagram from the list

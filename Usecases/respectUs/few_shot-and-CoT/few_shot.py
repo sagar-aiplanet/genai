@@ -203,6 +203,7 @@ with st.sidebar:
     if submit:
         question = question
         raw_doc = uploaded_files(uploaded_file)
+        global raw_doc
         # segmenting the document into segments
         text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
         texts = text_splitter.split_documents(raw_doc)

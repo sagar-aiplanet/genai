@@ -17,6 +17,8 @@ from operator import itemgetter
 import streamlit as st
 from io import BytesIO
 import graphviz
+import pydot
+
 
 AZURE_OPENAI_ENDPOINT = st.secrets.azure_embeddings_credentials.EMBEDDING_ENDPOINT_URL
 AZURE_OPENAI_API_KEY = st.secrets.azure_embeddings_credentials.EMBEDDING_AZURE_KEY
@@ -225,6 +227,26 @@ if submit:
         )
     answer = negotiate_chain.invoke({"question":question})
     dot_content = answer
-    graph = graphviz.Source(dot_content)
-    st.graphviz_chart(dot_content,use_container_width=True)
+    # graph = graphviz.Source(dot_content)
+    # st.graphviz_chart(dot_content,use_container_width=True)
+    # Write the dot content to a .dot file
+    with open("dot_content.dot", "w") as f:
+        f.write(dot_content)
 
+    # Read the .dot file
+    (dot_graph,) = pydot.graph_from_dot_file("dot_content.dot")
+
+    # Render the graph to a PNG image in memory
+    img_bytes = dot_graph.create_png()
+
+    # Display the image in Streamlit
+    st.write("Graph Visualization")
+    st.image(img_bytes, use_column_width=True)
+
+    # Provide a download button for the PNG image
+    st.download_button(
+        label="Download Graph as PNG",
+        data=img_bytes,
+        file_name="graph.png",
+        mime="image/png"
+    )

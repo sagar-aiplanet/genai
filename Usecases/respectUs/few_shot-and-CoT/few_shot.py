@@ -62,10 +62,10 @@ embeddings = AzureOpenAIEmbeddings(
     openai_api_version="2024-02-01",
 )
 
-color="lightgreen"
-color="lightorange"
-color="navyblue"
-color="red"
+# color="lightgreen"
+# color="lightorange"
+# color="navyblue"
+# color="red"
 
 
 dot_format = """ digraph G {
@@ -202,84 +202,84 @@ few_shot_prompt,
 ])
 
 
-# with st.sidebar:
-#     # with st.echo():
-uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
-question = st.text_input(label='Type your question')
+with st.sidebar:
+    # with st.echo():
+    uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
+    question = st.text_input(label='Type your question')
     
-# with st.container():
-submit=st.button("Generate Flow")
-if submit:
-    question = question
-    raw_doc = uploaded_files(uploaded_file)
-    # segmenting the document into segments
-    text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
-    texts = text_splitter.split_documents(raw_doc)
-    # Document Embedding with Chromadb
-    docsearch = Chroma.from_documents(texts, embeddings)
-    # Connection to query with Chroma indexing using a retriever
-    retriever = docsearch.as_retriever(
-        search_type="similarity",
-        search_kwargs={'k':4}
-    )
-
-    def format_docs(docs):
-        return "\n\n".join(doc.page_content for doc in docs)
-    # Langchain Expression Language to call our LLM using the prompt template above
-    # RAG chain
-    negotiate_chain = (
-        {"context": itemgetter("question") | retriever | format_docs,
-        "question": itemgetter("question")}
-        | negotiate_prompt
-        | llm
-        | StrOutputParser()
+with st.container():
+    submit=st.button("Generate Flow")
+    if submit:
+        question = question
+        raw_doc = uploaded_files(uploaded_file)
+        # segmenting the document into segments
+        text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
+        texts = text_splitter.split_documents(raw_doc)
+        # Document Embedding with Chromadb
+        docsearch = Chroma.from_documents(texts, embeddings)
+        # Connection to query with Chroma indexing using a retriever
+        retriever = docsearch.as_retriever(
+            search_type="similarity",
+            search_kwargs={'k':4}
         )
-    answer = negotiate_chain.invoke({"question":question})
-    dot_content = answer
 
-    # Create a diagram from DOT content using pydot
-    diagrams = pydot.graph_from_dot_data(dot_content)
-    diagram = diagrams[0]  # Retrieve the first diagram from the list
+        def format_docs(docs):
+            return "\n\n".join(doc.page_content for doc in docs)
+        # Langchain Expression Language to call our LLM using the prompt template above
+        # RAG chain
+        negotiate_chain = (
+            {"context": itemgetter("question") | retriever | format_docs,
+            "question": itemgetter("question")}
+            | negotiate_prompt
+            | llm
+            | StrOutputParser()
+            )
+        answer = negotiate_chain.invoke({"question":question})
+        dot_content = answer
 
-    # Render the diagram to a PNG file
-    output_path = "/tmp/example_diagram.png"
-    diagram.write_png(output_path)
+        # Create a diagram from DOT content using pydot
+        diagrams = pydot.graph_from_dot_data(dot_content)
+        diagram = diagrams[0]  # Retrieve the first diagram from the list
 
-    # Read the PNG file
-    with open(output_path, 'rb') as f:
-        img_bytes = f.read()
+        # Render the diagram to a PNG file
+        output_path = "/tmp/example_diagram.png"
+        diagram.write_png(output_path)
 
-    # Display the image in Streamlit
-    st.write("Diagram Visualization")
-    st.image(img_bytes, use_column_width=True)
+        # Read the PNG file
+        with open(output_path, 'rb') as f:
+            img_bytes = f.read()
 
-    # Provide a download button for the PNG image
-    st.download_button(
-        label="Download Diagram as PNG",
-        data=img_bytes,
-        file_name="diagram.png",
-        mime="image/png"
-    )
+        # Display the image in Streamlit
+        st.write("Diagram Visualization")
+        st.image(img_bytes, use_column_width=True)
 
-    # graph = graphviz.Source(dot_content)
-    # # st.graphviz_chart(dot_content,use_container_width=True)
-    # # Write the dot content to a .dot file
-    # # Render the graph to a PNG file
-    # output_path = "/tmp/example_graph.png"
-    # graph.render(filename=output_path, format='png', cleanup=False)
+        # Provide a download button for the PNG image
+        st.download_button(
+            label="Download Diagram as PNG",
+            data=img_bytes,
+            file_name="diagram.png",
+            mime="image/png"
+        )
 
-    # # Read the PNG file
-    # with open(f'{output_path}.png', 'rb') as f:
-    #     img_bytes = f.read()
+        # graph = graphviz.Source(dot_content)
+        # # st.graphviz_chart(dot_content,use_container_width=True)
+        # # Write the dot content to a .dot file
+        # # Render the graph to a PNG file
+        # output_path = "/tmp/example_graph.png"
+        # graph.render(filename=output_path, format='png', cleanup=False)
 
-    # # Display the image in Streamlit
-    # st.write("Graph Visualization")
-    # st.image(img_bytes, use_column_width=True)
+        # # Read the PNG file
+        # with open(f'{output_path}.png', 'rb') as f:
+        #     img_bytes = f.read()
 
-    # # Provide a download button for the PNG image
-    # st.download_button(
-    #     label="Download Graph as PNG",
-    #     data=img_bytes,
-    #     file_name="graph.png",
-    #     mime="image/png"
-    # )
+        # # Display the image in Streamlit
+        # st.write("Graph Visualization")
+        # st.image(img_bytes, use_column_width=True)
+
+        # # Provide a download button for the PNG image
+        # st.download_button(
+        #     label="Download Graph as PNG",
+        #     data=img_bytes,
+        #     file_name="graph.png",
+        #     mime="image/png"
+        # )

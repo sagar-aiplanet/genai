@@ -199,11 +199,12 @@ with st.sidebar:
     # with st.echo():
     uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
     question = st.text_input(label='Type your question')
+    
+with st.container():
     submit=st.button("Generate results")
     if submit:
         question = question
         raw_doc = uploaded_files(uploaded_file)
-        global raw_doc
         # segmenting the document into segments
         text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=0)
         texts = text_splitter.split_documents(raw_doc)
@@ -229,7 +230,5 @@ with st.sidebar:
         answer = negotiate_chain.invoke({"question":question})
         dot_content = answer
         graph = graphviz.Source(dot_content)
-with st.container():
-    st.write(raw_doc)
-    # st.graphviz_chart(dot_content)
+        st.graphviz_chart(dot_content)
 

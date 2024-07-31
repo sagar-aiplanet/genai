@@ -226,5 +226,5 @@ with st.container():
         answer = negotiate_chain.invoke({"question":question})
         dot_content = answer
         graph = graphviz.Source(dot_content)
-        st.graphviz_chart(dot_content,use_container_width=False)
+        st.graphviz_chart(dot_content,use_container_width=True)
 

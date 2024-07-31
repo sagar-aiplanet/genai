@@ -1,9 +1,4 @@
 import streamlit as st
-import numpy as np 
-
-
-st.write("This is outside the container")
-
 import sqlite3
 import os
 from langchain_openai import ChatOpenAI
@@ -198,8 +193,6 @@ few_shot_prompt,
     ("user", "{question}"),
     ("user", "{context}")
 ])
-
-
 
 
 with st.sidebar:

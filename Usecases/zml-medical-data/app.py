@@ -16,7 +16,7 @@ load_dotenv(find_dotenv())
 
 # loading embedding keys
 EMBEDDING_ENDPOINT_URL = os.environ.get("EMBEDDING_ENDPOINT_URL")
-AZURE_OPENAI_API_KEY = os.environ.get("EMBEDDING_AZURE_KEY")
+EMBEDDING_AZURE_KEY = os.environ.get("EMBEDDING_AZURE_KEY")
 # loading chatopenai model keys
 AZURE_BASE_URL = os.environ.get("AZURE_BASE_URL")
 AZURE_API_KEY = os.environ.get("AZURE_API_KEY")

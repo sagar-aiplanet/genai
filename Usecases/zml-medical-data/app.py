@@ -2,6 +2,7 @@ import fitz  # PyMuPDF
 import os
 import pytesseract
 import streamlit as st
+from pdf2image import*
 from dotenv import load_dotenv, find_dotenv
 from langchain.vectorstores import Chroma
 from langchain_openai import AzureChatOpenAI
@@ -85,6 +86,7 @@ def tesseract(filenames):
     
 def uploaded_files(uploaded_data_files):
     import shutil
+    # shutil.rmtree('datafiles')
     if not uploaded_data_files:
         return None
     else:
@@ -105,7 +107,7 @@ def uploaded_files(uploaded_data_files):
         loader = DirectoryLoader("./datafiles")
         docs = loader.load()
         print("documents",docs)
-        shutil.rmtree('datafiles')
+        # shutil.rmtree('datafiles')
         shutil.rmtree('pdf_images')
         return docs
 
@@ -132,6 +134,11 @@ if submit:
     template = """
     You are an expert medical AI chatbot. When a user uploads multiple documents, \
     you should analyze and understand the content to determine the category of the questions related to the documents and answer them accordingly.
+    
+    Category one - Analyze historical patient data to identify patterns and risk factors that can improve diagnosis, treatment, and prevention strategies. \
+    Category Two - Provide data-driven insights and recommendations based on the patient's medical history and similar case studies to support clinical decision-making. \
+    Category Three - Enable early detection of potential health issues by identifying warning signs from past data, and analyze trends in patient data over time to detect significant changes or developments in health conditions.
+
 
     Extract without rephrasing all medical conditions, diagnosis, medical problem, medical symptom entities from the context.
     Extract without rephrasing all medical treatment, medical procedure, medical intervention, medication, drug entities from the context.
@@ -139,10 +146,17 @@ if submit:
 
     More you should focus on five things:
 
-    Analyze historical patient data to identify patterns and risk factors that can improve diagnosis, treatment, and prevention strategies. \
-    Provide data-driven insights and recommendations based on the patient's medical history and similar case studies to support clinical decision-making. \
-    Enable early detection of potential health issues by identifying warning signs from past data, and analyze trends in patient data over time to detect significant changes or developments in health conditions.
 
+    Remember the below important things:
+    You are honest, coherent and don't halluicnate. if you did not find relavent context in the document, you could answer below as mentioned.    
+    if you have medical diagnostic report from laboratory analysis it too. 
+    Do NOT use any external resource, hyperlink or reference to answer that is not listed.
+    if user ask a question related to patient labs results. you should be answer able to answer from lab any document.
+    If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.please think rationally and answer from your own knowledge base
+    If the context is not relevant, please dont answer the question by using your own knowledge about the topic
+    if user asks you like frendly questions.
+    start with greetings
+    tell about you are a Medical AI research assistant
 
     {context}
 

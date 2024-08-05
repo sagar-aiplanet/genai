@@ -1,23 +1,25 @@
+import fitz  # PyMuPDF
+import os
+import pytesseract
+import streamlit as st
+from dotenv import load_dotenv, find_dotenv
+from langchain.vectorstores import Chroma
+from langchain_openai import AzureChatOpenAI
+from PIL import Image, ImageEnhance, ImageFilter
+from langchain_openai import AzureOpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader,PyPDFDirectoryLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_core.output_parsers import StrOutputParser
-from langchain_openai import AzureChatOpenAI
-from langchain_openai import AzureOpenAIEmbeddings
-import streamlit as st
-from langchain.vectorstores import Chroma
-import os
-import pytesseract
-import fitz  # PyMuPDF
-from PIL import Image, ImageEnhance, ImageFilter
+
+
+load_dotenv(find_dotenv())
 
 # loading embedding keys
-EMBEDDING_ENDPOINT_URL = "https://marketplace.openai.azure.com/"
-EMBEDDING_AZURE_KEY = "d6d9522a01c74836907af2f3fd72ff85"
-
+EMBEDDING_ENDPOINT_URL = os.environ.get("EMBEDDING_ENDPOINT_URL")
+AZURE_OPENAI_API_KEY = os.environ.get("EMBEDDING_AZURE_KEY")
 # loading chatopenai model keys
-AZURE_BASE_URL = "https://gpt-res.openai.azure.com/"
-AZURE_API_KEY = "a20bc67dbd7c47ed8c978bbcfdacf930"
-
+AZURE_BASE_URL = os.environ.get("AZURE_BASE_URL")
+AZURE_API_KEY = os.environ.get("AZURE_API_KEY")
 
 os.environ['AZURE_OPENAI_API_KEY'] = AZURE_API_KEY
 os.environ["AZURE_OPENAI_ENDPOINT"] = AZURE_BASE_URL
